@@ -42,21 +42,21 @@ Configure allowed CORS origins in the `appsettings.json` file under the `Cors` s
 
 5. **Passwords Encryption:**
 
-Ensure that sensitive passwords stored in the `appsettings.json` file are encrypted using `EncryptionHelper.EncryptKey` provided by the NrExtras_solution repository.
+Ensure that sensitive passwords stored in the `appsettings.json` file are encrypted using `EncryptionHelper.EncryptKey` provided by the NrExtrasSolution  repository.
 
 6. **NrExtras Solution Integration:**
 
-To enhance your Web API project, you must use the [NrExtras_solution repository](https://github.com/NiRo-2/NrExtrasSolution). It provides essential utility functions, email helpers, and logging capabilities that are integral to this project.
+To enhance your Web API project, you must use the [NrExtrasSolution  repository](https://github.com/NiRo-2/NrExtrasSolution). It provides essential utility functions, email helpers, and logging capabilities that are integral to this project.
 
-- Clone the NrExtras_solution repository:
+- Clone the NrExtrasSolution  repository:
 
   ```
   git clone https://github.com/NiRo-2/NrExtrasSolution.git
   ```
 
-- Reference the NrExtras_solution project in your Web API project.
+- Reference the NrExtrasSolution  project in your Web API project.
 
-- Utilize the utilities, email helpers, and logger provided by NrExtras_solution to streamline your development.
+- Utilize the utilities, email helpers, and logger provided by NrExtrasSolution  to streamline your development.
 
 7. **Run the Application:**
 
