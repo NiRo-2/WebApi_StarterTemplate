@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\GenericBackendTemplate\\WebApi\\WebApi.csproj": {}
+    "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
     "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj": {
@@ -364,14 +364,14 @@
         }
       }
     },
-    "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\GenericBackendTemplate\\WebApi\\WebApi.csproj": {
+    "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\GenericBackendTemplate\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\GenericBackendTemplate\\WebApi\\WebApi.csproj",
+        "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\WebApi.csproj",
         "packagesPath": "C:\\Users\\Nir\\.nuget\\packages\\",
-        "outputPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\GenericBackendTemplate\\WebApi\\obj\\",
+        "outputPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nir\\AppData\\Roaming\\NuGet\\NuGet.Config",
