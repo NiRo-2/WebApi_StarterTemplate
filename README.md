@@ -66,7 +66,7 @@ dotnet run
 
 Access the API:
 
-Your API will be available at https://localhost:5001 (or a different port if configured).
+Your API will be available at https://localhost:5000 (or a different port if configured).
 
 ## Usage
 
