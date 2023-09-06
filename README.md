@@ -25,6 +25,7 @@ Before getting started, ensure you have the following installed on your developm
 
    Clone this repository to your local machine:
 
+git clone https://github.com/NiRo-2/WebApi_StarterTemplate.git
 
 2. **Database Configuration:**
 
@@ -39,7 +40,11 @@ Configure the JWT settings in the `appsettings.json` file under the `JWT` sectio
 
 Configure allowed CORS origins in the `appsettings.json` file under the `Cors` section.
 
-5. **NrExtras Solution Integration:**
+5. **Passwords Encryption:**
+
+Ensure that sensitive passwords stored in the `appsettings.json` file are encrypted using `EncryptionHelper.EncryptKey` provided by the NrExtras_solution repository.
+
+6. **NrExtras Solution Integration:**
 
 To enhance your Web API project, you must use the [NrExtras_solution repository](https://github.com/NiRo-2/NrExtrasSolution). It provides essential utility functions, email helpers, and logging capabilities that are integral to this project.
 
@@ -53,14 +58,15 @@ To enhance your Web API project, you must use the [NrExtras_solution repository]
 
 - Utilize the utilities, email helpers, and logger provided by NrExtras_solution to streamline your development.
 
-6. **Run the Application:**
+7. **Run the Application:**
 
 Run your application using the following command:
 
+dotnet run
 
 Access the API:
 
-Your API will be available at https://localhost:5000 (or a different port if configured).
+Your API will be available at https://localhost:5001 (or a different port if configured).
 
 ## Usage
 
