@@ -15,7 +15,7 @@ namespace WebApi.Models
         public required string Email { get; set; }
 
         [Required(ErrorMessage = "Invalid password")]
-        [MinLength(5, ErrorMessage = "Password must be at least 5 characters long.")]
+        [MinLength(GlobalDynamicSettings.UserMinPassLength, ErrorMessage = "Invalid password length")]
         public required string Password { get; set; }
 
         public int EmailConfirmed { get; set; }

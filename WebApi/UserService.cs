@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NrExtras.Logger;
+using NrExtras.PassHash_Helper;
 using WebApi.Models;
 
 namespace WebApi
@@ -48,6 +49,28 @@ namespace WebApi
                 if (user != null)
                 {
                     user.EmailConfirmed = 1;
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteToLog(ex);
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateUserPasswordAsync(string userId, string newPassword)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                if (user != null)
+                {
+                    // Update the user's password
+                    user.Password = PassHash_Helper.HashPassword(newPassword);
                     await _context.SaveChangesAsync();
                     return true;
                 }

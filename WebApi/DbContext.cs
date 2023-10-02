@@ -9,6 +9,7 @@ namespace WebApi
 
         public DbSet<User> Users { get; set; }
         public DbSet<ActiveSession> ActiveSessions { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
 
         //set auto values when saving new user
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

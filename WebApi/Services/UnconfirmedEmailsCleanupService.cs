@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NrExtras.Logger;
 
-namespace WebApi
+namespace WebApi.Services
 {
     // Service to clean up unconfirmed email records
     public class UnconfirmedEmailsCleanupService : IHostedService, IDisposable

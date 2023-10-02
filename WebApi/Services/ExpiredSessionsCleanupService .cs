@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace WebApi
+namespace WebApi.Services
 {
     //this service incharge of cleanning active sessions from expired sessions
     public class ExpiredSessionsCleanupService : IHostedService, IDisposable

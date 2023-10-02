@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using NrExtras.EncryptionHelper;
 using NrExtras.Logger;
 using System.Text;
+using WebApi.Services;
 using static WebApi.ConfigClassesDefinitions;
 
 namespace WebApi
@@ -93,12 +94,24 @@ namespace WebApi
                 services.AddHostedService<ExpiredSessionsCleanupService>();
                 // Add the new service for cleaning up unconfirmed emails
                 services.AddHostedService<UnconfirmedEmailsCleanupService>();
+                // Add the new service for cleaning up expired tokens from password reset tokens table
+                services.AddHostedService<PasswordResetTokenCleanupService>();
                 #endregion
 
-                //user related operation service
+                // Register PasswordResetTokenService
+                services.AddScoped<IPasswordResetTokenService, PasswordResetTokenService>();
+
+                // Register UserService with its dependencies
                 services.AddScoped<UserService>();
+
+                //add TokenUtility service
+                services.AddScoped<TokenUtility>();
+                
                 //add local only attribute
                 services.AddScoped<LocalOnlyAttribute>();
+
+                //add razor pages
+                services.AddRazorPages();
                 #region Cors
                 //add cors
                 ////Allow all cors - use only for develop environment
@@ -173,6 +186,7 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
 
@@ -180,7 +194,7 @@ namespace WebApi
         private void EnsureTablesCreated(bool isSqlLite, string connectionString)
         {
             if (isSqlLite)
-            {//sql lite
+            {// SQLite
                 using (var connection = new SqliteConnection(connectionString))
                 {
                     connection.Open();
@@ -188,24 +202,33 @@ namespace WebApi
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                    CREATE TABLE IF NOT EXISTS Users (
+                CREATE TABLE IF NOT EXISTS Users (
                     Id TEXT PRIMARY KEY,
                     UserName TEXT NOT NULL,
                     Email TEXT NOT NULL,
                     EmailConfirmed INTEGER NOT NULL,
                     Password TEXT NOT NULL,
                     RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP
-                    )";
+                )";
                         command.ExecuteNonQuery();
 
                         command.CommandText = @"
-                    CREATE TABLE IF NOT EXISTS ActiveSessions (
+                CREATE TABLE IF NOT EXISTS ActiveSessions (
                     Id TEXT PRIMARY KEY,
                     Token TEXT NOT NULL,
                     UserId TEXT NOT NULL,
                     SignInDate DATETIME DEFAULT CURRENT_TIMESTAMP
-                    )"
-                        ;
+                )";
+                        command.ExecuteNonQuery();
+
+                        command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS PasswordResetTokens (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    UserId TEXT NOT NULL,
+                    Token TEXT NOT NULL,
+                    Expiration DATETIME NOT NULL,
+                    Used INTEGER NOT NULL DEFAULT 0 -- Add Used column
+                )";
                         command.ExecuteNonQuery();
                     }
                 }
@@ -219,23 +242,33 @@ namespace WebApi
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                    CREATE TABLE IF NOT EXISTS Users (
+                CREATE TABLE IF NOT EXISTS Users (
                     Id VARCHAR(255) PRIMARY KEY,
                     UserName VARCHAR(255) NOT NULL,
                     Email VARCHAR(255) NOT NULL,
                     EmailConfirmed TINYINT(1) NOT NULL,
                     Password TEXT NOT NULL,
                     RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP
-                    )";
+                )";
                         command.ExecuteNonQuery();
 
                         command.CommandText = @"
-                    CREATE TABLE IF NOT EXISTS ActiveSessions (
+                CREATE TABLE IF NOT EXISTS ActiveSessions (
                     Id VARCHAR(255) PRIMARY KEY,
                     Token TEXT NOT NULL,
                     UserId VARCHAR(255) NOT NULL,
                     SignInDate DATETIME DEFAULT CURRENT_TIMESTAMP
-                    )";
+                )";
+                        command.ExecuteNonQuery();
+
+                        command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS PasswordResetTokens (
+                    Id INT AUTO_INCREMENT PRIMARY KEY,
+                    UserId VARCHAR(255) NOT NULL,
+                    Token TEXT NOT NULL,
+                    Expiration DATETIME NOT NULL,
+                    Used TINYINT(1) NOT NULL DEFAULT 0 -- Add Used column
+                )";
                         command.ExecuteNonQuery();
                     }
                 }

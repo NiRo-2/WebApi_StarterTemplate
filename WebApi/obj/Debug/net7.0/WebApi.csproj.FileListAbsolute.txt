@@ -514,3 +514,8 @@ D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\obj\Debug\net7.0\WebA
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\obj\Debug\net7.0\WebApi.genruntimeconfig.cache
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\obj\Debug\net7.0\ref\WebApi.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\BCrypt.Net-Next.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\obj\Debug\net7.0\WebApi.RazorAssemblyInfo.cache
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\obj\Debug\net7.0\WebApi.RazorAssemblyInfo.cs
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\LZStringCSharp.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.StringsHelper.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.StringsHelper.pdb

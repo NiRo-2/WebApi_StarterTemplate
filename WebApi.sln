@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.PassHash_Helper", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.RandomPasswordGenerator", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.RandomPasswordGenerator\NrExtras.RandomPasswordGenerator.csproj", "{3A587E1F-B222-492F-84F0-323006D0EF50}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.StringsHelper", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.StringsHelper\NrExtras.StringsHelper.csproj", "{0AF69145-6B4B-459F-83A3-86721896DE40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3A587E1F-B222-492F-84F0-323006D0EF50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A587E1F-B222-492F-84F0-323006D0EF50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A587E1F-B222-492F-84F0-323006D0EF50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF69145-6B4B-459F-83A3-86721896DE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF69145-6B4B-459F-83A3-86721896DE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF69145-6B4B-459F-83A3-86721896DE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF69145-6B4B-459F-83A3-86721896DE40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
