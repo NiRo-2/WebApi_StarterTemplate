@@ -192,6 +192,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="model">ForgotPasswordRequest holding email</param>
         /// <returns></returns>
+        [EnableCors("Cors_AllowOrigin_SpecificAddress")]
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest model)
         {
@@ -268,7 +269,7 @@ namespace WebApi.Controllers
 
             //create subject and body
             string emailSubject = "Password Reset Request";
-            string emailBody = $"To reset your password, click the following link: {resetPasswordLink}";
+            string emailBody = $"To reset your password, {NrExtras.Html_Helper.Html_Helper.GetHyperLink(resetPasswordLink, "Click Here")}";
 
             //send reset password link
             Logger.WriteToLog($"Send reset password link to {email}");
@@ -280,6 +281,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="model">model holding token, email and new password</param>
         /// <returns>Ok if all good, BadRequest if otherwise</returns>
+        [EnableCors("Cors_AllowOrigin_SpecificAddress")]
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest model)
         {

@@ -519,3 +519,10 @@ D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\obj\Debug\net7.0\WebA
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\LZStringCSharp.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.StringsHelper.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.StringsHelper.pdb
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\AdvancedStringBuilder.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\AngleSharp.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\AngleSharp.Css.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\HtmlSanitizer.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\WebMarkupMin.Core.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.Html_Helper.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.Html_Helper.pdb

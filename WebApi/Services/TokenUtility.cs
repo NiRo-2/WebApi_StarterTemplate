@@ -4,15 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApi;
 
+/// <summary>
+/// Token helper service
+/// </summary>
 public class TokenUtility
 {
-    private readonly UserService _userService;
+    public TokenUtility()
+    {}
 
-    public TokenUtility(UserService userService)
-    {
-        _userService = userService;
-    }
-
+    /// <summary>
+    /// Extract email from token
+    /// </summary>
+    /// <param name="token">token</param>
+    /// <returns>found email address</returns>
     public string ExtractUserEmailFromToken(string token)
     {
         try
@@ -41,16 +45,4 @@ public class TokenUtility
         // Return an empty string if the email couldn't be extracted or an error occurred
         return string.Empty;
     }
-
-    //public async Task<string?> GetUserIdByEmailAsync(string email)
-    //{
-    //    var user = await _userService.GetUserByEmailAsync(email);
-
-    //    // Check if the user was found
-    //    if (user != null)
-    //        return user.Id; // Assuming the user object has an "Id" property
-
-    //    // Return null if the user was not found
-    //    return null;
-    //}
 }

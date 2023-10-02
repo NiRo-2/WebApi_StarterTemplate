@@ -26,6 +26,7 @@
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.EmailHelper\NrExtras.EmailHelper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.EncryptionHelper\NrExtras.EncryptionHelper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.GuidGenerator\NrExtras.GuidGenerator.csproj" />
+	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.Html_Helper\NrExtras.Html_Helper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.Logger\NrExtras.Logger.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.PassHash_Helper\NrExtras.PassHash_Helper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.RandomPasswordGenerator\NrExtras.RandomPasswordGenerator.csproj" />

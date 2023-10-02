@@ -88,6 +88,7 @@ namespace WebApi
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             return environment?.ToLower() == "development";
         }
+
         /// <summary>
         /// get configuration object
         /// </summary>

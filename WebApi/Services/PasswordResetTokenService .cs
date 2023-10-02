@@ -7,6 +7,9 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
+    /// <summary>
+    /// This service is incharge of reset passwords tokens so it would be single use tokens
+    /// </summary>
     public class PasswordResetTokenService : IPasswordResetTokenService
     {
         private readonly AppDbContext _context;
@@ -20,6 +23,10 @@ namespace WebApi.Services
             _userService= userService;
         }
 
+        /// <summary>
+        /// Remove expired tokens from db
+        /// </summary>
+        /// <returns></returns>
         public async Task RemoveExpiredTokensAsync()
         {
             // Find all expired tokens
@@ -35,6 +42,13 @@ namespace WebApi.Services
             }
         }
 
+        /// <summary>
+        /// Create password reset token object in db
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <param name="token">used token</param>
+        /// <param name="expiration">token expiration</param>
+        /// <returns></returns>
         public async Task CreatePasswordResetTokenAsync(string userId, string token, DateTime expiration)
         {
             var existingToken = await _context.PasswordResetTokens
@@ -65,7 +79,7 @@ namespace WebApi.Services
         }
 
         /// <summary>
-        /// Verify encrypted token
+        /// Verify token
         /// </summary>
         /// <param name="token">token</param>
         /// <returns></returns>
@@ -94,6 +108,12 @@ namespace WebApi.Services
             }
         }
 
+        /// <summary>
+        /// Verify token
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <param name="token">token</param>
+        /// <returns></returns>
         public async Task<bool> VerifyPasswordResetTokenAsync(string userId, string token)
         {
             var validToken = await _context.PasswordResetTokens
@@ -127,6 +147,11 @@ namespace WebApi.Services
             }
         }
 
+        /// <summary>
+        /// Extract email from token
+        /// </summary>
+        /// <param name="token">token</param>
+        /// <returns>found email address</returns>
         public Task<string> ExtractEmailFromToken(string token)
         {
             return Task.FromResult(_tokenUtility.ExtractUserEmailFromToken(token));

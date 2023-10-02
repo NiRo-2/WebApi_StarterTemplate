@@ -190,7 +190,11 @@ namespace WebApi
             });
         }
 
-        //prepare db if not exists
+        /// <summary>
+        /// prepare db if not exists
+        /// </summary>
+        /// <param name="isSqlLite">if true handle as sql lite, false - as MySql</param>
+        /// <param name="connectionString">connection string</param>
         private void EnsureTablesCreated(bool isSqlLite, string connectionString)
         {
             if (isSqlLite)

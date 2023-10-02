@@ -55,6 +55,10 @@ namespace WebApi.Pages
                 return Page();
             }
 
+            //reset temp data on load before getting the page back
+            TempData["NewPassword"] = null;
+            TempData["ConfirmPassword"] = null;
+
             return Page();
         }
 
