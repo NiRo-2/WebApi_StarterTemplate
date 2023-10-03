@@ -8,6 +8,7 @@ Welcome to the Web API Starter Template, a robust foundation for building Web AP
 - **JWT Authentication:** Secure your API endpoints with JSON Web Tokens (JWT).
 - **Rate Limiting:** Implement rate limiting to protect your API from abuse.
 - **User Management:** Includes user registration, login, and email verification.
+- **Forgot and Reset Password:** Allow users to reset their passwords with email confirmation.
 - **Logging:** Utilize a logging system to keep track of important events in your API.
 - **CORS Configuration:** Set up Cross-Origin Resource Sharing (CORS) for secure cross-domain requests.
 - **Utilities:** Leverage utility functions for common tasks.
@@ -27,6 +28,7 @@ Before getting started, ensure you have the following installed on your developm
 
 git clone https://github.com/NiRo-2/WebApi_StarterTemplate.git
 
+
 2. **Database Configuration:**
 
 - SQLite: If you choose SQLite, no further configuration is required.
@@ -42,21 +44,21 @@ Configure allowed CORS origins in the `appsettings.json` file under the `Cors` s
 
 5. **Passwords Encryption:**
 
-Ensure that sensitive passwords stored in the `appsettings.json` file are encrypted using `EncryptionHelper.EncryptKey` provided by the NrExtrasSolution  repository.
+Ensure that sensitive passwords stored in the `appsettings.json` file are encrypted using `EncryptionHelper.EncryptKey` provided by the NrExtrasSolution repository.
 
 6. **NrExtras Solution Integration:**
 
-To enhance your Web API project, you must use the [NrExtrasSolution  repository](https://github.com/NiRo-2/NrExtrasSolution). It provides essential utility functions, email helpers, and logging capabilities that are integral to this project.
+To enhance your Web API project, you must use the [NrExtrasSolution repository](https://github.com/NiRo-2/NrExtrasSolution). It provides essential utility functions, email helpers, and logging capabilities that are integral to this project.
 
-- Clone the NrExtrasSolution  repository:
+- Clone the NrExtrasSolution repository:
 
   ```
   git clone https://github.com/NiRo-2/NrExtrasSolution.git
   ```
 
-- Reference the NrExtrasSolution  project in your Web API project.
+- Reference the NrExtrasSolution project in your Web API project.
 
-- Utilize the utilities, email helpers, and logger provided by NrExtrasSolution  to streamline your development.
+- Utilize the utilities, email helpers, and logger provided by NrExtrasSolution to streamline your development.
 
 7. **Run the Application:**
 
@@ -64,9 +66,18 @@ Run your application using the following command:
 
 dotnet run
 
+
 Access the API:
 
-Your API will be available at https://localhost:5000 (or a different port if configured).
+Your API will be available at `https://localhost:5000` (or a different port if configured).
+
+8. **Forgot and Reset Password:**
+
+The template now includes a Razor page for resetting passwords:
+
+- Access the password reset page at `https://localhost:5000/ResetPassword`.
+- Users can reset their passwords by providing a new password and confirming it.
+- Password reset requests require email confirmation.
 
 ## Usage
 
