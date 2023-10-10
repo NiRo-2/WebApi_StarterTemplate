@@ -21,5 +21,7 @@ namespace WebApi.Models
         public int EmailConfirmed { get; set; }
 
         public DateTime RegistrationDate { get; set; }
+
+        public DateTime? LastLoginDate { get; set; }
     }
 }

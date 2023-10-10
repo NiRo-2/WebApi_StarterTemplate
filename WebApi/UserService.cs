@@ -62,6 +62,12 @@ namespace WebApi
             }
         }
 
+        /// <summary>
+        /// Update the user password
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <param name="newPassword">new password</param>
+        /// <returns>true on successes, false otherwise</returns>
         public async Task<bool> UpdateUserPasswordAsync(string userId, string newPassword)
         {
             try

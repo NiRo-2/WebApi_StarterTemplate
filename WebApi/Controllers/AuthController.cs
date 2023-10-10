@@ -57,6 +57,11 @@ namespace WebApi.Controllers
 
             // Valid user, password and email confirmed
             Logger.WriteToLog($"Successful login for Email: {model.email}");
+            // Update the LastLoginDate property and save the changes to the database
+            user.LastLoginDate = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            //generate token
             var token = GenerateJwtToken(user);
 
             // Create an active session

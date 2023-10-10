@@ -49,6 +49,9 @@ namespace WebApi.Controllers
                     if (await _context.Users.AnyAsync(u => u.UserName == user.UserName || u.Email == user.Email))
                         return BadRequest("Username or email is already taken.");
 
+                    //last login should be null - make sure of it
+                    user.LastLoginDate = null;
+
                     // Hash the password
                     user.Password = PassHash_Helper.HashPassword(user.Password);
 
@@ -69,8 +72,9 @@ namespace WebApi.Controllers
 
                 return BadRequest(ModelState);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.WriteToLog(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
         }

@@ -212,7 +212,8 @@ namespace WebApi
                     Email TEXT NOT NULL,
                     EmailConfirmed INTEGER NOT NULL,
                     Password TEXT NOT NULL,
-                    RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP
+                    RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    LastLoginDate DATETIME
                 )";
                         command.ExecuteNonQuery();
 
@@ -252,7 +253,8 @@ namespace WebApi
                     Email VARCHAR(255) NOT NULL,
                     EmailConfirmed TINYINT(1) NOT NULL,
                     Password TEXT NOT NULL,
-                    RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP
+                    RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    LastLoginDate DATETIME
                 )";
                         command.ExecuteNonQuery();
 
