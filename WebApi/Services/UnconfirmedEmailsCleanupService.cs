@@ -36,14 +36,31 @@ namespace WebApi.Services
                 // Calculate the datetime threshold for unconfirmed email records
                 var expirationThreshold = DateTime.UtcNow.AddHours(-_configuration.GetValue<int>("UnconfirmedEmails_ExpirationHours"));
 
-                // Retrieve and remove unconfirmed email records older than the threshold
-                var unconfirmedEmails = await dbContext.Users.Where(u => u.EmailConfirmed == 0 && u.RegistrationDate < expirationThreshold).ToListAsync();
-                dbContext.Users.RemoveRange(unconfirmedEmails);
-                //update log
-                Logger.WriteToLog($"{unconfirmedEmails.Count} users with unconfirmed emails found and removed from db");
+                try
+                {
+                    // Retrieve and remove unconfirmed email records older than the threshold
+                    var unconfirmedEmails = await dbContext.Users
+                        .Where(u => u.EmailConfirmed == 0 && u.RegistrationDate < expirationThreshold)
+                        .ToListAsync();
 
-                // Save changes to the database
-                await dbContext.SaveChangesAsync();
+                    if (unconfirmedEmails.Any())
+                    {
+                        // Remove the unconfirmed email records
+                        dbContext.Users.RemoveRange(unconfirmedEmails);
+                        await dbContext.SaveChangesAsync();
+                        Logger.WriteToLog($"UnconfirmedEmailsCleanupService - {unconfirmedEmails.Count} users with unconfirmed emails found and removed from db");
+                    }
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    // Handle concurrency exception (another process modified the data)
+                    Logger.WriteToLog($"Concurrency exception occurred: {ex.Message}", Logger.LogLevel.Error);
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions
+                    Logger.WriteToLog($"An error occurred during cleanup: {ex.Message}", Logger.LogLevel.Error);
+                }
             }
         }
 

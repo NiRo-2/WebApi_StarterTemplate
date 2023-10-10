@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NrExtras.Logger;
 
 namespace WebApi.Services
 {
@@ -53,6 +54,9 @@ namespace WebApi.Services
 
                 // Retrieve and remove expired sessions
                 var expiredSessions = await dbContext.ActiveSessions.Where(s => s.SignInDate < expirationThreshold).ToListAsync();
+                //update log
+                Logger.WriteToLog($"ExpiredSessionsCleanupService - {expiredSessions.Count} expired sessions found and removed from db");
+
                 dbContext.ActiveSessions.RemoveRange(expiredSessions);
 
                 // Save changes to the database
