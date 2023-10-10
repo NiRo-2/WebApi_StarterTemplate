@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using NrExtras;
 using NrExtras.EmailHelper;
 using NrExtras.EncryptionHelper;
 using NrExtras.Logger;
@@ -10,8 +9,6 @@ using NrExtras.PassHash_Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Web;
-using System.Xml;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -33,12 +30,6 @@ namespace WebApi.Controllers
             _configuration = configuration;
             _userService = userService;
             _passwordResetTokenService = passwordResetTokenService;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
         }
 
         // POST: api/users/register

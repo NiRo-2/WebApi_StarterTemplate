@@ -33,6 +33,23 @@ namespace WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //if running production and we have a domain, auto create ssl
+            if (!IsDevelopmentEnvironment() && !appSettingsConfiguration.GetSection("LettuceEncrypt:DomainNames").Get<string[]>().IsNullOrEmpty())
+            {
+                Logger.WriteToLog("Auto creating ssl certificate using LettuceEncrypt");
+                builder.Services.AddLettuceEncrypt();
+                builder.WebHost.UseKestrel(k =>
+                {
+                    var appServices = k.ApplicationServices;
+                    k.Listen(
+                        System.Net.IPAddress.Any, int.Parse(appSettingsConfiguration["ListeningUrls:production_WithDomain"]),
+                        o => o.UseHttps(h =>
+                        {
+                            h.UseLettuceEncrypt(appServices);
+                        }));
+                });
+            }
+
             var app = builder.Build();
             startup.Configure(app, builder.Environment); // calling Configure method
             var configuration = app.Services.GetRequiredService<IConfiguration>();
@@ -50,25 +67,9 @@ namespace WebApi
             else
             {
                 Logger.WriteToLog("Running on production env");
-
-                //if we have a domain, auto create ssl. otherwise, just listen
-                if (appSettingsConfiguration["DomainNames:DomainNames"].IsNullOrEmpty())
+                //if we dont have a domain, set the right ports to listen
+                if (configuration.GetSection("LettuceEncrypt:DomainNames").Get<string[]>().IsNullOrEmpty())
                     builder.WebHost.UseUrls(configuration["ListeningUrls:production_WithoutDomain"]);
-                else
-                {//auto create certificate on load - only for production env
-                    Logger.WriteToLog("Auto creating ssl certificate using LettuceEncrypt");
-                    builder.Services.AddLettuceEncrypt();
-                    builder.WebHost.UseKestrel(k =>
-                    {
-                        var appServices = k.ApplicationServices;
-                        k.Listen(
-                            System.Net.IPAddress.Any, int.Parse(configuration["ListeningUrls:production_WithDomain"]),
-                            o => o.UseHttps(h =>
-                            {
-                                h.UseLettuceEncrypt(appServices);
-                            }));
-                    });
-                }
             }
 
             app.UseHttpsRedirection();

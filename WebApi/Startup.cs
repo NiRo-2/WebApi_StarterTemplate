@@ -106,7 +106,7 @@ namespace WebApi
 
                 //add TokenUtility service
                 services.AddScoped<TokenUtility>();
-                
+
                 //add local only attribute
                 services.AddScoped<LocalOnlyAttribute>();
 

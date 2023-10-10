@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace WebApi.Services
+﻿namespace WebApi.Services
 {
     /// <summary>
     /// Password reset tokens cleanup service which run every x hours and remove all expired tokens from db

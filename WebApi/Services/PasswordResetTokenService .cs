@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApi.Models;
 
 namespace WebApi.Services
@@ -16,11 +12,11 @@ namespace WebApi.Services
         private readonly TokenUtility _tokenUtility;
         private readonly UserService _userService;
 
-        public PasswordResetTokenService(AppDbContext context, TokenUtility tokenUtility,UserService userService)
+        public PasswordResetTokenService(AppDbContext context, TokenUtility tokenUtility, UserService userService)
         {
             _context = context;
             _tokenUtility = tokenUtility;
-            _userService= userService;
+            _userService = userService;
         }
 
         /// <summary>

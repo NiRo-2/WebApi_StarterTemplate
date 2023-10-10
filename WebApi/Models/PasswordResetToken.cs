@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebApi.Models
+﻿namespace WebApi.Models
 {
     public class PasswordResetToken
     {

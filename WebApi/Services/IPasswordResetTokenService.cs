@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace WebApi.Services
+﻿namespace WebApi.Services
 {
     public interface IPasswordResetTokenService
     {

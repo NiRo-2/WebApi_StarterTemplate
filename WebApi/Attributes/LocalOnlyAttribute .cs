@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Net;
-using System.Linq;
 using NrExtras.Logger;
+using System.Net;
 
 namespace BackEnd_Exp.Attributes
 {
@@ -15,22 +12,31 @@ namespace BackEnd_Exp.Attributes
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public class LocalOnlyAttribute : ActionFilterAttribute
     {
+        // Local IP addresses
+        private readonly IPAddress[] localAddresses = {
+        IPAddress.Parse("127.0.0.1"),
+        IPAddress.Parse("::1"),
+        IPAddress.Parse("::ffff:127.0.0.1")
+    };
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             try
             {
-                var remoteIp = context.HttpContext.Connection.RemoteIpAddress;
+                IPAddress remoteIp = context.HttpContext.Connection.RemoteIpAddress;
+                foreach (IPAddress allowedIp in localAddresses)
+                {
+                    if (IPAddress.Equals(remoteIp, allowedIp))
+                    {
+                        // Address found
+                        Logger.WriteToLog("Connection allowed from local IP: " + remoteIp);
+                        return;
+                    }
+                }
 
-                // Check if the remote IP is a loopback address (localhost)
-                if (IPAddress.IsLoopback(remoteIp) || IPAddress.IPv6Loopback.Equals(remoteIp))
-                {
-                    Logger.WriteToLog("Connection allowed from local IP: " + remoteIp);
-                }
-                else
-                {
-                    Logger.WriteToLog("Connection denied from non-local IP: " + remoteIp, Logger.LogLevel.Warning);
-                    context.Result = new UnauthorizedResult();
-                }
+                // If we are here, the IP is not allowed
+                Logger.WriteToLog("Connection denied from non-local IP: " + remoteIp, Logger.LogLevel.Warning);
+                context.Result = new UnauthorizedResult();
             }
             catch (Exception ex)
             {

@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text;
-using System.Web;
-using WebApi.Models;
 using WebApi.Services;
 
 namespace WebApi.Pages

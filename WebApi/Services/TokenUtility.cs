@@ -1,8 +1,4 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
-using WebApi;
+﻿using System.IdentityModel.Tokens.Jwt;
 
 /// <summary>
 /// Token helper service
@@ -10,7 +6,7 @@ using WebApi;
 public class TokenUtility
 {
     public TokenUtility()
-    {}
+    { }
 
     /// <summary>
     /// Extract email from token
@@ -39,7 +35,7 @@ public class TokenUtility
         }
         catch (Exception ex)
         {
-            NrExtras.Logger.Logger.WriteToLog("Failed to extract email from token. Err: " +ex,NrExtras.Logger.Logger.LogLevel.Error);
+            NrExtras.Logger.Logger.WriteToLog("Failed to extract email from token. Err: " + ex, NrExtras.Logger.Logger.LogLevel.Error);
         }
 
         // Return an empty string if the email couldn't be extracted or an error occurred
