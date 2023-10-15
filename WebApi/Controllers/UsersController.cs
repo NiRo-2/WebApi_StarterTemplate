@@ -67,6 +67,8 @@ namespace WebApi.Controllers
                     // Send verification email with the verificationLink
                     sendEmailConfirmation(user.Email, baseUrl, verificationToken);
 
+                    //Done
+                    Logger.WriteToLog($"{user.Email} Registered (still waiting for email verification)");
                     return Ok("Registration successful.");
                 }
 

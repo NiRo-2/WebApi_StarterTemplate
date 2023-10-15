@@ -63,7 +63,7 @@ namespace WebApi.Pages
         //onPost - when user submitting new password. validating token, validating pass length and equal to confirmation pass and after all that, making password update
         public IActionResult OnPost()
         {
-            Console.WriteLine("OnPost called");
+            Console.WriteLine("ResetPassword OnPost called");
             //get and validate token - URL-decode the parameter to get the original string
             string? token = Request.Query["token"];
             if (string.IsNullOrEmpty(token))
