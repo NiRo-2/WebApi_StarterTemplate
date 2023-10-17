@@ -105,7 +105,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Generate email verify token
+        /// Generate email verify token(encrypted)
         /// </summary>
         /// <param name="userEmail"></param>
         /// <param name="secretKey"></param>
@@ -127,13 +127,18 @@ namespace WebApi.Controllers
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            //encrypt and base64 token before sending it
+            string encryptedToken = tokenHandler.WriteToken(token);
+            encryptedToken = EncryptionHelper.EncryptKey(encryptedToken);
+            encryptedToken = NrExtras.StringsHelper.StringsHelper.ToBase64(encryptedToken);
+
+            return encryptedToken;
         }
 
         /// <summary>
         /// Verify email controller get method
         /// </summary>
-        /// <param name="token">verify token</param>
+        /// <param name="token">verify token (encrypted)</param>
         /// <returns></returns>
         [HttpGet("VerifyEmail")]
         public async Task<IActionResult> VerifyEmail(string token)
@@ -142,6 +147,17 @@ namespace WebApi.Controllers
             {
                 if (string.IsNullOrEmpty(token))
                     return BadRequest("Invalid verification token.");
+
+                //decrypt from base64 and decrypt the encrypted token before validating it
+                try
+                {
+                    token = NrExtras.StringsHelper.StringsHelper.FromBase64(token);
+                    token = EncryptionHelper.DecryptKey(token);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error decrypting token. Err: " + ex);
+                }
 
                 // Validate and decode the token
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -274,7 +290,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Password update
+        /// Password update. *pay attention that token is being decrypted in the Razor page*
         /// </summary>
         /// <param name="model">model holding token, email and new password</param>
         /// <returns>Ok if all good, BadRequest if otherwise</returns>

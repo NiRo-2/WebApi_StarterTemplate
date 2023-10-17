@@ -52,15 +52,28 @@ namespace WebApi.Services
                 // Calculate the datetime threshold for session expiration
                 var expirationThreshold = DateTime.UtcNow.AddHours(-_configuration.GetValue<int>("JWT:TokenExpirationHours"));
 
-                // Retrieve and remove expired sessions
-                var expiredSessions = await dbContext.ActiveSessions.Where(s => s.SignInDate < expirationThreshold).ToListAsync();
-                //update log
-                Logger.WriteToLog($"ExpiredSessionsCleanupService - {expiredSessions.Count} expired sessions found and removed from db");
+                try
+                {
+                    // Retrieve and remove expired sessions
+                    var expiredSessions = await dbContext.ActiveSessions.Where(s => s.SignInDate < expirationThreshold).ToListAsync();
+                    // Update log
+                    Logger.WriteToLog($"ExpiredSessionsCleanupService - {expiredSessions.Count} expired sessions found and removed from db");
 
-                dbContext.ActiveSessions.RemoveRange(expiredSessions);
+                    dbContext.ActiveSessions.RemoveRange(expiredSessions);
 
-                // Save changes to the database
-                await dbContext.SaveChangesAsync();
+                    // Save changes to the database
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    // Handle concurrency exception (another process modified the data)
+                    Logger.WriteToLog($"Concurrency exception occurred: {ex.Message}", Logger.LogLevel.Error);
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions
+                    Logger.WriteToLog($"An error occurred during cleanup: {ex.Message}", Logger.LogLevel.Error);
+                }
             }
         }
 
