@@ -123,7 +123,7 @@ namespace WebApi.Controllers
             new Claim(ClaimTypes.Email, userEmail)
         }),
                 Expires = DateTime.UtcNow.Add(tokenLifetime),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -254,7 +254,7 @@ namespace WebApi.Controllers
             new Claim("reset", "true") // Custom claim to indicate it's a reset token
         }),
                 Expires = DateTime.UtcNow.Add(tokenLifetime),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

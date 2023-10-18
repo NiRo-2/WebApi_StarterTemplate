@@ -10,7 +10,7 @@ namespace WebApi
         public static void Main(string[] args)
         {
             // Set jwt key and encrypt it
-            GlobalDynamicSettings.JwtToken_HashedSecnret = EncryptionHelper.EncryptKey(RandomPasswordGenerator.Generate256BitPassword());
+            GlobalDynamicSettings.JwtToken_HashedSecnret = EncryptionHelper.EncryptKey(RandomPasswordGenerator.Generate512BitPassword());
             // Set debug mode
             GlobalDynamicSettings.DebugMode_RunningLocal = IsDevelopmentEnvironment();
 

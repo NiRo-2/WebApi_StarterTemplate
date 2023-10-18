@@ -67,7 +67,8 @@ namespace WebApi.Controllers
             // Create an active session
             await CreateActiveSessionAsync(user, token);
 
-            return Ok(new { Token = token });
+            //return encrypted token to user
+            return Ok(new { Token = EncryptionHelper.EncryptKey(token) });
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace WebApi.Controllers
         private string GenerateJwtToken(User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtToken_HashedSecnret)));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var claims = new[]
             {
@@ -131,7 +132,7 @@ namespace WebApi.Controllers
                     return BadRequest("Invalid authorization header");
 
                 //get token
-                string token = authorizationHeader.Substring("Bearer ".Length);
+                string token = EncryptionHelper.DecryptKey(authorizationHeader.Substring("Bearer ".Length));
 
                 //read email out of the token
                 var tokenHandler = new JwtSecurityTokenHandler();
