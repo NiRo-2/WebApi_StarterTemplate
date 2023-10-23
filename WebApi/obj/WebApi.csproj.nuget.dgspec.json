@@ -82,7 +82,11 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.StringsHelper\\NrExtras.StringsHelper.csproj": {
+                "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.StringsHelper\\NrExtras.StringsHelper.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

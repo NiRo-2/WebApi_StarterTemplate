@@ -2746,6 +2746,7 @@
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3",
+          "NrExtras.StringsHelper": "1.0.0",
           "System.Security.Cryptography.ProtectedData": "7.0.1"
         },
         "compile": {

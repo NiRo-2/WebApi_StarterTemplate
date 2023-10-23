@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
 using WebApi.Models;
 
 namespace WebApi.Services
@@ -115,9 +116,24 @@ namespace WebApi.Services
             var validToken = await _context.PasswordResetTokens
                 .FirstOrDefaultAsync(t => t.UserId == userId && t.Token == token && t.Expiration > DateTime.UtcNow && t.Used == false);
 
-            return validToken != null;
+            if (validToken != null)
+            {
+                // Check the "reset" claim
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadJwtToken(token);
+                if (jwtToken.Claims.FirstOrDefault(claim => claim.Type == "reset" && claim.Value == "true") != null)
+                    return true;
+            }
+
+            return false;
         }
 
+        /// <summary>
+        /// mark token as used after user used it
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <param name="token">token</param>
+        /// <returns></returns>
         public async Task MarkTokenAsUsedAsync(string userId, string token)
         {
             var tokenToMark = await _context.PasswordResetTokens
@@ -131,6 +147,12 @@ namespace WebApi.Services
             }
         }
 
+        /// <summary>
+        /// remove password reset token from db
+        /// </summary>
+        /// <param name="userId">user id</param>
+        /// <param name="token">token</param>
+        /// <returns></returns>
         public async Task RemovePasswordResetTokenAsync(string userId, string token)
         {
             var tokenToRemove = await _context.PasswordResetTokens
