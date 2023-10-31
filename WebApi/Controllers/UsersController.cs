@@ -319,7 +319,11 @@ namespace WebApi.Controllers
                 // Reset the user's password
                 bool passwordResetResult = await _userService.UpdateUserPasswordAsync(user.Id, model.NewPassword);
                 if (passwordResetResult)
+                {
+                    //send password reset success email
+                    sendResetPasswordSuccessEmail(user.Email);
                     return Ok("Password reset successful.");
+                }
 
                 // If we got here, we had an error
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while resetting the password.");
@@ -328,6 +332,21 @@ namespace WebApi.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
+        }
+
+        /// <summary>
+        /// Send password reset success email
+        /// </summary>
+        /// <param name="email">user email</param>
+        private void sendResetPasswordSuccessEmail(string email)
+        {
+            //create subject and body
+            string emailSubject = "Password Reset success!";
+            string emailBody = "Your password has resetted successfuly.";
+
+            //send reset password link
+            Logger.WriteToLog($"Send reset password success email to {email}");
+            EmailHelper.sendEmail(_configuration["EmailSettings:FromAddress"], EncryptionHelper.DecryptKey(GlobalDynamicSettings.EmailHashedPass), _configuration["EmailSettings:mailServer"], int.Parse(_configuration["EmailSettings:mailServerPort"]), new List<string>() { email }, null, null, emailSubject, emailBody);
         }
     }
 }
