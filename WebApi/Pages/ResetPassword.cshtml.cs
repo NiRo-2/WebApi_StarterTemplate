@@ -113,6 +113,9 @@ namespace WebApi.Pages
                 else // Password reset failed
                     ErrorMessage = "An error occurred while resetting the password.";
 
+                //reset values at the end
+                TempData["NewPassword"] = null;
+                TempData["ConfirmPassword"] = null;
                 return Page();
             }
             catch (Exception ex)

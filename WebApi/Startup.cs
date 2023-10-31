@@ -83,7 +83,7 @@ namespace WebApi
                             ValidateIssuerSigningKey = true,
                             ValidIssuer = jwtConfig.Issuer,
                             ValidAudience = jwtConfig.Audience,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtToken_HashedSecnret)))
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret)))
                         };
                     });
                 #endregion

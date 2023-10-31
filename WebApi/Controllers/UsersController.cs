@@ -61,7 +61,7 @@ namespace WebApi.Controllers
                     await _context.SaveChangesAsync();
 
                     // Generate verification email and send it
-                    string verificationToken = GenerateEmailVerificationToken(user.Email, EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtToken_HashedSecnret), TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:TokenExpirationHours"])));
+                    string verificationToken = GenerateEmailVerificationToken(user.Email, EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret), TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:TokenExpirationHours"])));
                     string baseUrl = $"{Request.Scheme}://{Request.Host}";
 
                     // Send verification email with the verificationLink
@@ -161,7 +161,7 @@ namespace WebApi.Controllers
 
                 // Validate and decode the token
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtToken_HashedSecnret));
+                var key = Encoding.ASCII.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret));
 
                 var tokenValidationParameters = new TokenValidationParameters
                 {
@@ -214,7 +214,7 @@ namespace WebApi.Controllers
                 return Ok("Password reset request sent if the email exists.");
 
             // Generate a password reset token using JWT
-            var secretKey = EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtToken_HashedSecnret);
+            var secretKey = EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret);
 
             // Read the token expiration time from appsettings
             var tokenLifetimeMinutes = _configuration.GetValue<int>("JWT:PasswordResetTokenExpirationMinutes");

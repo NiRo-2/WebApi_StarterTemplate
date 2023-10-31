@@ -526,3 +526,6 @@ D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\Html
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\WebMarkupMin.Core.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.Html_Helper.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.Html_Helper.pdb
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.JwtToken_Helper.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.JwtToken_Helper.pdb

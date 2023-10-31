@@ -1,12 +1,22 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using NrExtras.JwtToken_Helper;
+using NrExtras.Logger;
+using System.IdentityModel.Tokens.Jwt;
+using WebApi;
+using static WebApi.ConfigClassesDefinitions;
 
 /// <summary>
 /// Token helper service
 /// </summary>
 public class TokenUtility
 {
-    public TokenUtility()
-    { }
+    private readonly AppDbContext _context;
+    private IConfiguration _configuration;
+
+    public TokenUtility(AppDbContext context, IConfiguration configuration)
+    {
+        _context = context;
+        _configuration = configuration;
+    }
 
     /// <summary>
     /// Extract email from token
@@ -40,5 +50,28 @@ public class TokenUtility
 
         // Return an empty string if the email couldn't be extracted or an error occurred
         return string.Empty;
+    }
+
+    /// <summary>
+    /// Validate token
+    /// </summary>
+    /// <param name="token">token</param>
+    /// <returns>true if valid, false otherwise</returns>
+    public bool IsValidToken(string token)
+    {
+        try
+        {
+            //get all values from appsettings
+            JwtConfig jwtConfig = _configuration.GetSection("JWT").Get<JwtConfig>();
+            //validate using jwtTokenHelper
+            return JwtToken_Helper.ValidateCurrentToken(NrExtras.EncryptionHelper.EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret), jwtConfig.Issuer, jwtConfig.Audience, token);
+        }
+        catch (Exception ex)
+        {
+            // Log any exceptions during token validation
+            Logger.WriteToLog(ex);
+        }
+
+        return false;
     }
 }

@@ -97,7 +97,7 @@ namespace WebApi.Controllers
         /// <returns>return token</returns>
         private string GenerateJwtToken(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtToken_HashedSecnret)));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret)));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var claims = new[]
