@@ -74,4 +74,29 @@ public class TokenUtility
 
         return false;
     }
+
+    /// <summary>
+    /// Check if token exists in the active sessions
+    /// </summary>
+    /// <param name="token">token</param>
+    /// <returns>true if exists, false otherwise</returns>
+    public bool IsTokenExistsInActiveSessions(string? token)
+    {
+        if (string.IsNullOrEmpty(token)) return false;
+        var activeSession = _context.ActiveSessions.FirstOrDefault(s => s.token == token);
+
+        // Check if the active session exists
+        return activeSession != null;
+    }
+
+    /// <summary>
+    /// Ensure access token is valid - check in token exists in active sessions and if it's valid
+    /// </summary>
+    /// <param name="token">token</param>
+    /// <returns>true if token is logged in, false otherwise</returns>
+    public bool IsValidAccessToken(string? token)
+    {
+        if (string.IsNullOrEmpty(token)) return false;
+        return (IsTokenExistsInActiveSessions(token) && IsValidToken(token));
+    }
 }

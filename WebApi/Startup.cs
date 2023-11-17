@@ -85,6 +85,26 @@ namespace WebApi
                             ValidAudience = jwtConfig.Audience,
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret)))
                         };
+                        //write JwtBearerEvents to console
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnTokenValidated = context =>
+                            {//make sure token is valid and exists in active sessions to make sure user is logged in
+                                context.Request.Headers.TryGetValue("Authorization", out var token);
+                                if (!string.IsNullOrEmpty(token))
+                                    token = token.ToString().Substring("Bearer ".Length);
+
+                                // validate token exists in active sessions (that user is logged in at the moment)
+                                var tokenUtility = context.HttpContext.RequestServices.GetRequiredService<TokenUtility>();
+                                if (!tokenUtility.IsValidAccessToken(token))
+                                {
+                                    Logger.WriteToConsole("JwtBearerEvents: Token is invliad or not exists in active sessions(user it not logged in anymore)");
+                                    context.Fail("Invalid token");
+                                }
+
+                                return Task.CompletedTask;
+                            }
+                        };
                     });
                 #endregion
                 services.AddControllers();
