@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NrExtras.Logger;
 using WebApi.Models;
 
 namespace WebApi
@@ -13,17 +14,25 @@ namespace WebApi
         //set auto values when saving new user
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            // Set default values for Id and RegistrationDate before saving changes
-            foreach (var entry in ChangeTracker.Entries<User>())
+            try
             {
-                if (entry.State == EntityState.Added)
+                // Set default values for Id and RegistrationDate before saving changes
+                foreach (var entry in ChangeTracker.Entries<User>())
                 {
-                    entry.Entity.Id = NrExtras.GuidGenerator.GuidGenerator.generateGUID(); //uuid
-                    entry.Entity.RegistrationDate = DateTime.UtcNow; //registration date - Now
+                    if (entry.State == EntityState.Added)
+                    {
+                        entry.Entity.Id = NrExtras.GuidGenerator.GuidGenerator.generateGUID(); //uuid
+                        entry.Entity.RegistrationDate = DateTime.UtcNow; //registration date - Now
+                    }
                 }
-            }
 
-            return await base.SaveChangesAsync(cancellationToken);
+                return await base.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteToLog(ex);
+                throw new Exception("Error in SaveChangesAsync. Err: " + ex.Message);
+            }
         }
     }
 }

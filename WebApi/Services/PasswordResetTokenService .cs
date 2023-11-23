@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NrExtras.PassHash_Helper;
+using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using WebApi.Models;
 
@@ -50,6 +52,9 @@ namespace WebApi.Services
         {
             var existingToken = await _context.PasswordResetTokens
                 .FirstOrDefaultAsync(t => t.UserId == userId && t.Expiration > DateTime.UtcNow);
+
+            //hash token
+            token = PassHash_Helper.HashPassword(token);
 
             if (existingToken != null)
             {
@@ -114,15 +119,19 @@ namespace WebApi.Services
         public async Task<bool> VerifyPasswordResetTokenAsync(string userId, string token)
         {
             var validToken = await _context.PasswordResetTokens
-                .FirstOrDefaultAsync(t => t.UserId == userId && t.Token == token && t.Expiration > DateTime.UtcNow && t.Used == false);
+                .FirstOrDefaultAsync(t => t.UserId == userId && t.Expiration > DateTime.UtcNow && t.Used == false);
 
             if (validToken != null)
             {
-                // Check the "reset" claim
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = tokenHandler.ReadJwtToken(token);
-                if (jwtToken.Claims.FirstOrDefault(claim => claim.Type == "reset" && claim.Value == "true") != null)
-                    return true;
+                //validate recieved token equal the saved hashed value in db
+                if (PassHash_Helper.VerifyHashVsPass(token, validToken.Token))
+                {
+                    // Check the "reset" claim
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var jwtToken = tokenHandler.ReadJwtToken(token);
+                    if (jwtToken.Claims.FirstOrDefault(claim => claim.Type == "reset" && claim.Value == "true") != null)
+                        return true;
+                }
             }
 
             return false;
@@ -137,13 +146,19 @@ namespace WebApi.Services
         public async Task MarkTokenAsUsedAsync(string userId, string token)
         {
             var tokenToMark = await _context.PasswordResetTokens
-                .FirstOrDefaultAsync(t => t.UserId == userId && t.Token == token);
+                .FirstOrDefaultAsync(t => t.UserId == userId);
 
             if (tokenToMark != null)
             {
-                // Mark the token as used
-                tokenToMark.Used = true;
-                await _context.SaveChangesAsync();
+                //validate recieved token equal the saved hashed value in db
+                if (PassHash_Helper.VerifyHashVsPass(token, tokenToMark.Token))
+                {
+                    // Mark the token as used
+                    tokenToMark.Used = true;
+                    await _context.SaveChangesAsync();
+                }
+                else //incase hashed token isn't the same as found input token
+                    throw new Exception("Invalid token");
             }
         }
 
@@ -156,12 +171,18 @@ namespace WebApi.Services
         public async Task RemovePasswordResetTokenAsync(string userId, string token)
         {
             var tokenToRemove = await _context.PasswordResetTokens
-                .FirstOrDefaultAsync(t => t.UserId == userId && t.Token == token);
+                .FirstOrDefaultAsync(t => t.UserId == userId);
 
             if (tokenToRemove != null)
             {
-                _context.PasswordResetTokens.Remove(tokenToRemove);
-                await _context.SaveChangesAsync();
+                //validate recieved token equal the saved hashed value in db
+                if (PassHash_Helper.VerifyHashVsPass(token, tokenToRemove.Token))
+                {
+                    _context.PasswordResetTokens.Remove(tokenToRemove);
+                    await _context.SaveChangesAsync();
+                }
+                else //incase hashed token isn't the same as found input token
+                    throw new Exception("Invalid token");
             }
         }
 
