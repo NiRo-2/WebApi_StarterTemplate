@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NrExtras.PassHash_Helper;
 using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WebApi.Models;
 
 namespace WebApi.Services
@@ -14,12 +17,14 @@ namespace WebApi.Services
         private readonly AppDbContext _context;
         private readonly TokenUtility _tokenUtility;
         private readonly UserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public PasswordResetTokenService(AppDbContext context, TokenUtility tokenUtility, UserService userService)
+        public PasswordResetTokenService(AppDbContext context, TokenUtility tokenUtility, UserService userService, IConfiguration configuration)
         {
             _context = context;
             _tokenUtility = tokenUtility;
             _userService = userService;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -123,13 +128,28 @@ namespace WebApi.Services
 
             if (validToken != null)
             {
-                //validate recieved token equal the saved hashed value in db
+                // Validate received token against the stored hashed token in the database
                 if (PassHash_Helper.VerifyHashVsPass(token, validToken.Token))
                 {
-                    // Check the "reset" claim
                     var tokenHandler = new JwtSecurityTokenHandler();
-                    var jwtToken = tokenHandler.ReadJwtToken(token);
-                    if (jwtToken.Claims.FirstOrDefault(claim => claim.Type == "reset" && claim.Value == "true") != null)
+
+                    // Configure token validation parameters
+                    var tokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidIssuer = _configuration["JWT:Issuer"],
+                        ValidAudience = _configuration["JWT:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(NrExtras.EncryptionHelper.EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret)))
+                    };
+
+                    // Validate the token using the validation parameters
+                    SecurityToken validatedToken;
+                    var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out validatedToken);
+
+                    // Check the "reset" claim
+                    var resetClaim = (principal.Identity as ClaimsIdentity)?.FindFirst("reset");
+                    if (resetClaim != null && resetClaim.Value == "true")
                         return true;
                 }
             }

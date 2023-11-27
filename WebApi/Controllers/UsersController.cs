@@ -254,7 +254,9 @@ namespace WebApi.Controllers
             new Claim("reset", "true") // Custom claim to indicate it's a reset token
         }),
                 Expires = DateTime.UtcNow.Add(tokenLifetime),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512),
+                Issuer = _configuration["JWT:Issuer"], // Get issuer from app settings
+                Audience = _configuration["JWT:Audience"] // Get audience from app settings
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
