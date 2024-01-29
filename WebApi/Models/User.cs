@@ -23,5 +23,15 @@ namespace WebApi.Models
         public DateTime RegistrationDate { get; set; }
 
         public DateTime? LastLoginDate { get; set; }
+
+        /// <summary>
+        /// Verify pass is strong. min chars and at least 1 digit and 1 char
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns>true if valid, false otherwise</returns>
+        public static bool IsStrongPassword(string password)
+        {
+            return password.Length >= GlobalDynamicSettings.UserMinPassLength && password.Any(char.IsLetter) && password.Any(char.IsDigit);
+        }
     }
 }

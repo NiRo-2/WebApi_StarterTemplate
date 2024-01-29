@@ -529,3 +529,7 @@ D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrEx
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.JwtToken_Helper.dll
 D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\NrExtras.JwtToken_Helper.pdb
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\System.Collections.Immutable.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\System.Diagnostics.EventLog.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Diagnostics.EventLog.Messages.dll
+D:\Nir\P\GoogleDrive\Dev\Web\WebApi_StarterTemplate\WebApi\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Diagnostics.EventLog.dll

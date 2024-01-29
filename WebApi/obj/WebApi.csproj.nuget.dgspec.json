@@ -105,7 +105,7 @@
             },
             "System.Security.Cryptography.ProtectedData": {
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[8.0.0, )"
             }
           },
           "imports": [
@@ -221,7 +221,7 @@
           "dependencies": {
             "HtmlSanitizer": {
               "target": "Package",
-              "version": "[8.0.692, )"
+              "version": "[8.0.811, )"
             },
             "WebMarkupMin.Core": {
               "target": "Package",
@@ -290,11 +290,11 @@
           "dependencies": {
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[6.32.1, )"
+              "version": "[7.2.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.32.1, )"
+              "version": "[7.2.0, )"
             }
           },
           "imports": [
@@ -359,7 +359,7 @@
             },
             "System.Diagnostics.EventLog": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

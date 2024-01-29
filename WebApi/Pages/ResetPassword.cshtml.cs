@@ -95,6 +95,13 @@ namespace WebApi.Pages
                 return Page();
             }
 
+            //Validate pass strength
+            if (!Models.User.IsStrongPassword(NewPassword))
+            {
+                ErrorMessage = "Password must include at least one digit and one char";
+                return Page();
+            }
+
             try
             {
                 // Validate the reset token

@@ -52,12 +52,15 @@ namespace WebApi.Controllers
                     //last login should be null - make sure of it
                     user.LastLoginDate = null;
 
+                    //validate pass
+                    if (!Models.User.IsStrongPassword(user.Password))
+                        return BadRequest("Password must include at least one digit and one char");
+
                     // Hash the password
                     user.Password = PassHash_Helper.HashPassword(user.Password);
 
                     //add user and update db
                     _context.Users.Add(user);
-                    //_context.SaveChanges();
                     await _context.SaveChangesAsync();
 
                     // Generate verification email and send it
@@ -314,6 +317,9 @@ namespace WebApi.Controllers
                 var tokenValid = await _passwordResetTokenService.VerifyPasswordResetTokenAsync(user.Id, model.Token);
                 if (!tokenValid)
                     return BadRequest("Invalid or expired token.");
+
+                //check for valid pass
+                if (!Models.User.IsStrongPassword(model.NewPassword)) return BadRequest("Password must include at least one digit and one char");
 
                 // Mark the token as used
                 await _passwordResetTokenService.MarkTokenAsUsedAsync(user.Id, model.Token);

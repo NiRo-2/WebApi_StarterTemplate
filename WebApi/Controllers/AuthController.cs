@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi.Controllers
 {
