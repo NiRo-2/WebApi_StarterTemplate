@@ -45,7 +45,7 @@ namespace WebApi.Controllers
             var user = await _userService.GetUserByEmailAsync(model.email);
             if (user == null || !PassHash_Helper.VerifyHashVsPass(model.password, user.Password))
             {
-                Logger.WriteToLog($"Invalid login attempt for Email: {model.email}");
+                Logger.WriteToLog($"Invalid login attempt for Email: {model.email}",Logger.LogLevel.Warning);
                 return Unauthorized("Invalid credentials");
             }
 
