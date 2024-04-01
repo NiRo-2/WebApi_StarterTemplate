@@ -188,6 +188,9 @@ namespace WebApi
                 app.UseHsts();
             }
 
+            //custom error handling
+            app.UseErrorHandling();
+
             //setting UseIpRateLimiting
             app.UseIpRateLimiting();
 

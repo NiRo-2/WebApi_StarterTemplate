@@ -191,7 +191,7 @@ namespace WebApi.Controllers
                 // Update user's email confirmation status
                 if (await _userService.UpdateUserEmailConfirmationStatusAsync(userEmailClaim))
                 {
-                    Logger.WriteToLog($"Email verification successful for email {userEmailClaim}");
+                    Logger.WriteToLog($"Email verified successful for email {userEmailClaim}");
                     return Ok("Email verification successful.");
                 }
 
