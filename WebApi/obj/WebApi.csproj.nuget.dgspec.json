@@ -4,29 +4,30 @@
     "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj": {
+    "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.DynamicObjects_Helper\\NrExtras.DynamicObjects_Helper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj",
-        "projectName": "NrExtras.EmailHelper",
-        "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj",
+        "projectUniqueName": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.DynamicObjects_Helper\\NrExtras.DynamicObjects_Helper.csproj",
+        "projectName": "NrExtras.DynamicObjects_Helper",
+        "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.DynamicObjects_Helper\\NrExtras.DynamicObjects_Helper.csproj",
         "packagesPath": "C:\\Users\\Nir\\.nuget\\packages\\",
-        "outputPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\obj\\",
+        "outputPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.DynamicObjects_Helper\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nir\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -34,11 +35,22 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -55,7 +67,68 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj",
+        "projectName": "NrExtras.EmailHelper",
+        "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj",
+        "packagesPath": "C:\\Users\\Nir\\.nuget\\packages\\",
+        "outputPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Nir\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -73,15 +146,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
               "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.StringsHelper\\NrExtras.StringsHelper.csproj": {
                 "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.StringsHelper\\NrExtras.StringsHelper.csproj"
@@ -93,11 +167,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Newtonsoft.Json": {
               "target": "Package",
@@ -124,7 +203,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -142,15 +221,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -158,11 +238,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -179,7 +264,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -197,15 +282,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -213,19 +299,24 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "HtmlSanitizer": {
               "target": "Package",
-              "version": "[8.0.811, )"
+              "version": "[8.1.870, )"
             },
             "WebMarkupMin.Core": {
               "target": "Package",
-              "version": "[2.14.0, )"
+              "version": "[2.17.0, )"
             }
           },
           "imports": [
@@ -244,7 +335,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -262,39 +353,41 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
-            "projectReferences": {
-              "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.Logger\\NrExtras.Logger.csproj": {
-                "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.Logger\\NrExtras.Logger.csproj"
-              }
-            }
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
           }
         },
         "warningProperties": {
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[7.2.0, )"
+              "version": "[8.1.2, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[7.2.0, )"
+              "version": "[8.1.2, )"
             }
           },
           "imports": [
@@ -313,7 +406,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -331,15 +424,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -347,11 +441,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "BCrypt.Net-Next": {
               "target": "Package",
@@ -378,7 +477,78 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.NetAddressUtils\\NrExtras.NetAddressUtils.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.NetAddressUtils\\NrExtras.NetAddressUtils.csproj",
+        "projectName": "NrExtras.NetAddressUtils",
+        "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.NetAddressUtils\\NrExtras.NetAddressUtils.csproj",
+        "packagesPath": "C:\\Users\\Nir\\.nuget\\packages\\",
+        "outputPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.NetAddressUtils\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Nir\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MaxMind.GeoIP2": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -396,15 +566,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -412,11 +583,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "BCrypt.Net-Next": {
               "target": "Package",
@@ -439,7 +615,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -457,31 +633,33 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
-            "projectReferences": {
-              "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.Logger\\NrExtras.Logger.csproj": {
-                "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.Logger\\NrExtras.Logger.csproj"
-              }
-            }
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
           }
         },
         "warningProperties": {
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -498,7 +676,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -516,15 +694,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -532,11 +711,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "LZStringCSharp": {
               "target": "Package",
@@ -559,7 +743,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -577,16 +761,20 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
+              "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.DynamicObjects_Helper\\NrExtras.DynamicObjects_Helper.csproj": {
+                "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.DynamicObjects_Helper\\NrExtras.DynamicObjects_Helper.csproj"
+              },
               "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj": {
                 "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.EmailHelper\\NrExtras.EmailHelper.csproj"
               },
@@ -605,6 +793,9 @@
               "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.Logger\\NrExtras.Logger.csproj": {
                 "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.Logger\\NrExtras.Logger.csproj"
               },
+              "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.NetAddressUtils\\NrExtras.NetAddressUtils.csproj": {
+                "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.NetAddressUtils\\NrExtras.NetAddressUtils.csproj"
+              },
               "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.PassHash_Helper\\NrExtras.PassHash_Helper.csproj": {
                 "projectPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\ClassLibraries\\NrExtrasSolution\\NrExtras.PassHash_Helper\\NrExtras.PassHash_Helper.csproj"
               },
@@ -621,11 +812,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "AspNetCoreRateLimit": {
               "target": "Package",
@@ -689,7 +885,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

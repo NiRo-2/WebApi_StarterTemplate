@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.Html_Helper", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.JwtToken_Helper", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.JwtToken_Helper\NrExtras.JwtToken_Helper.csproj", "{CDEE1434-A88A-409E-A4C4-3088A36820DE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.DynamicObjects_Helper", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.DynamicObjects_Helper\NrExtras.DynamicObjects_Helper.csproj", "{B4DF3D12-F169-4427-A26C-07D662044387}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.NetAddressUtils", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.NetAddressUtils\NrExtras.NetAddressUtils.csproj", "{5B0FC2BD-9F06-48E8-8620-037E068C356E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{CDEE1434-A88A-409E-A4C4-3088A36820DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDEE1434-A88A-409E-A4C4-3088A36820DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDEE1434-A88A-409E-A4C4-3088A36820DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4DF3D12-F169-4427-A26C-07D662044387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4DF3D12-F169-4427-A26C-07D662044387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4DF3D12-F169-4427-A26C-07D662044387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4DF3D12-F169-4427-A26C-07D662044387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

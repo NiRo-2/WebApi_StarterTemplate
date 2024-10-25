@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -23,12 +23,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.DynamicObjects_Helper\NrExtras.DynamicObjects_Helper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.EmailHelper\NrExtras.EmailHelper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.EncryptionHelper\NrExtras.EncryptionHelper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.GuidGenerator\NrExtras.GuidGenerator.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.Html_Helper\NrExtras.Html_Helper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.JwtToken_Helper\NrExtras.JwtToken_Helper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.Logger\NrExtras.Logger.csproj" />
+	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.NetAddressUtils\NrExtras.NetAddressUtils.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.PassHash_Helper\NrExtras.PassHash_Helper.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.RandomPasswordGenerator\NrExtras.RandomPasswordGenerator.csproj" />
 	  <ProjectReference Include="..\..\..\ClassLibraries\NrExtrasSolution\NrExtras.StringsHelper\NrExtras.StringsHelper.csproj" />

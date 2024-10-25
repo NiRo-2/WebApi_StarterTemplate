@@ -1,5 +1,6 @@
 ﻿using AspNetCoreRateLimit;
 using BackEnd_Exp.Attributes;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -205,6 +206,9 @@ namespace WebApi
 
             // Enable authorization
             app.UseAuthorization();
+
+            //Add ip black list middleware
+            app.UseMiddleware<IpBlacklistMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
