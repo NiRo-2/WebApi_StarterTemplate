@@ -11,5 +11,6 @@ namespace WebApi.Models
         [Required(ErrorMessage = "Please Enter Password")]
         [DataType(DataType.Password)]
         public string password { get; set; }
+        public string? recaptchaToken { get; set; }
     }
 }

@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,53 +23,28 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\appsettings.json",
-              "RelativeDocumentMoniker": "WebApi\\appsettings.json",
-              "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\appsettings.json",
-              "RelativeToolTip": "WebApi\\appsettings.json",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAEkAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-25T10:48:20.366Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "WebApi\\Controllers\\UsersController.cs",
-              "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "WebApi\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T08:27:59.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "Startup.cs",
               "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Startup.cs",
               "RelativeDocumentMoniker": "WebApi\\Startup.cs",
               "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Startup.cs",
               "RelativeToolTip": "WebApi\\Startup.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-18T13:02:05.47Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Program.cs",
               "RelativeDocumentMoniker": "WebApi\\Program.cs",
               "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Program.cs",
               "RelativeToolTip": "WebApi\\Program.cs",
-              "ViewState": "AQIAACsAAAAAAAAAAAAgwDQAAAAAAAAA",
+              "ViewState": "AgIAACsAAAAAAAAAAAAgwDQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-18T12:55:58.485Z"
+              "WhenOpened": "2024-08-18T12:55:58.485Z",
+              "EditorCaption": ""
             }
           ]
         }

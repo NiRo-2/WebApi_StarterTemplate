@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.DynamicObjects_Hel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.NetAddressUtils", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.NetAddressUtils\NrExtras.NetAddressUtils.csproj", "{5B0FC2BD-9F06-48E8-8620-037E068C356E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NrExtras.Google", "..\..\ClassLibraries\NrExtrasSolution\NrExtras.Google\NrExtras.Google.csproj", "{9ED175A7-6B81-4E3B-BD15-85E3F091AC5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B0FC2BD-9F06-48E8-8620-037E068C356E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ED175A7-6B81-4E3B-BD15-85E3F091AC5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED175A7-6B81-4E3B-BD15-85E3F091AC5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED175A7-6B81-4E3B-BD15-85E3F091AC5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED175A7-6B81-4E3B-BD15-85E3F091AC5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

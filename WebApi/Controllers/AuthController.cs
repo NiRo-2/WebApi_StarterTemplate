@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NrExtras.EncryptionHelper;
+using NrExtras.Google;
 using NrExtras.Logger;
 using NrExtras.PassHash_Helper;
 using System.IdentityModel.Tokens.Jwt;
@@ -33,7 +34,7 @@ namespace WebApi.Controllers
         /// <summary>
         /// Login
         /// </summary>
-        /// <param name="model">login model holder email and pass</param>
+        /// <param name="model">login model holder email and pass (in case enable - also reCaptcha</param>
         /// <returns>token</returns>
         [EnableCors("Cors_AllowOrigin_SpecificAddress")]
         [HttpPost("login")]
@@ -41,6 +42,11 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid request");
+
+            // Verify the reCAPTCHA token
+            if (bool.Parse(_configuration["reCaptcha:Active"]))
+                if (!await Google_reCaptcha_Helper.ValidateRecaptchaAsync(model.recaptchaToken, _configuration["reCaptcha:Secret"]))
+                    return BadRequest("reCAPTCHA validation failed.");
 
             var user = await _userService.GetUserByEmailAsync(model.email);
             if (user == null || !PassHash_Helper.VerifyHashVsPass(model.password, user.Password))
