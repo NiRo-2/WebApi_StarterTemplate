@@ -1,4 +1,5 @@
-﻿using MySqlX.XDevAPI;
+﻿using NLog;
+using NLog.Web;
 using NrExtras.NetAddressUtils;
 using System.Net;
 using System.Net.Sockets;
@@ -12,6 +13,7 @@ namespace WebApi
     {
         private readonly RequestDelegate _next;
         private readonly List<IPAddress> _blacklistedIps;
+        private readonly Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
         public IpBlacklistMiddleware(RequestDelegate next, IConfiguration configuration)
         {
@@ -29,7 +31,7 @@ namespace WebApi
             catch (Exception ex)
             {
                 // Log error and create an empty list to prevent app crash
-                NrExtras.Logger.Logger.WriteToLog(ex);
+                logger.Error(ex);
                 _blacklistedIps = new List<IPAddress>();
             }
         }
@@ -71,7 +73,7 @@ namespace WebApi
             if (clientIpString == null)
             {
                 // Log a warning if client IP cannot be retrieved
-                NrExtras.Logger.Logger.WriteToLog("Failed to retrieve client IP address.", NrExtras.Logger.Logger.LogLevel.Warning);
+                logger.Warn("Failed to retrieve client IP address.");
                 await _next(context);
                 return;
             }
@@ -80,7 +82,7 @@ namespace WebApi
             if (!IPAddress.TryParse(clientIpString, out clientIp))
             {
                 // Log an error if IP parsing fails
-                NrExtras.Logger.Logger.WriteToLog($"Failed to parse client IP address: {clientIpString}", NrExtras.Logger.Logger.LogLevel.Error);
+                logger.Error($"Failed to parse client IP address: {clientIpString}");
                 await _next(context);
                 return;
             }
@@ -91,7 +93,7 @@ namespace WebApi
             if (_blacklistedIps.Contains(clientIp))
             {
                 context.Response.StatusCode = 429;
-                NrExtras.Logger.Logger.WriteToLog($"Request blocked due to IP address being blacklisted. IpAddress: {clientIp}", NrExtras.Logger.Logger.LogLevel.Warning);
+                logger.Warn($"Request blocked due to IP address being blacklisted. IpAddress: {clientIp}");
                 await context.Response.WriteAsync("Request blocked due to IP address being blacklisted.");
                 return;
             }
@@ -116,7 +118,7 @@ namespace WebApi
                 catch (FormatException)
                 {
                     // IPv6 address cannot be mapped to IPv4, log a warning
-                    NrExtras.Logger.Logger.WriteToLog($"IPv6 address {ipAddress} cannot be mapped to IPv4.", NrExtras.Logger.Logger.LogLevel.Warning);
+                    logger.Warn($"IPv6 address {ipAddress} cannot be mapped to IPv4.");
                     return ipAddress; // Return original IPv6 address
                 }
             }

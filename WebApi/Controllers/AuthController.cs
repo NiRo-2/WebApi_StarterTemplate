@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NrExtras.EncryptionHelper;
 using NrExtras.Google;
-using NrExtras.Logger;
 using NrExtras.PassHash_Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,12 +21,14 @@ namespace WebApi.Controllers
         private readonly IConfiguration _configuration;
         private readonly AppDbContext _context;
         private readonly UserService _userService;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IConfiguration configuration, AppDbContext context, UserService userService)
+        public AuthController(IConfiguration configuration, AppDbContext context, UserService userService, ILogger<AuthController> logger)
         {
             _configuration = configuration;
             _context = context;
             _userService = userService;
+            _logger = logger;
         }
 
         #region Login
@@ -51,19 +52,19 @@ namespace WebApi.Controllers
             var user = await _userService.GetUserByEmailAsync(model.email);
             if (user == null || !PassHash_Helper.VerifyHashVsPass(model.password, user.Password))
             {
-                Logger.WriteToLog($"Invalid login attempt for Email: {model.email}",Logger.LogLevel.Warning);
+                _logger.LogWarning($"Invalid login attempt for Email: {model.email}");
                 return Unauthorized("Invalid credentials");
             }
 
             //validating email confirmed
             if (user.EmailConfirmed == 0)
             {
-                Logger.WriteToLog($"Success login but email not confirmed for Email: {model.email}");
+                _logger.LogInformation($"Success login but email not confirmed for Email: {model.email}");
                 return Unauthorized("Email not confirmed");
             }
 
             // Valid user, password and email confirmed
-            Logger.WriteToLog($"Successful login for Email: {model.email}");
+            _logger.LogInformation($"Successful login for Email: {model.email}");
             // Update the LastLoginDate property and save the changes to the database
             user.LastLoginDate = DateTime.UtcNow;
             await _context.SaveChangesAsync();
@@ -158,7 +159,7 @@ namespace WebApi.Controllers
                         if (authenticatedUser != null)
                             if (await LogoutAsync(authenticatedUser))
                             {
-                                Logger.WriteToLog($"Successful logout for Email: {userEmailClaim.Value}");
+                                _logger.LogInformation($"Successful logout for Email: {userEmailClaim.Value}");
                                 return Ok("Logout successful.");
                             }
                     }

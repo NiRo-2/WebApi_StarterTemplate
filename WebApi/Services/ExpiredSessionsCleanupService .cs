@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NrExtras.Logger;
+using NLog;
+using NLog.Web;
 
 namespace WebApi.Services
 {
     //this service incharge of cleanning active sessions from expired sessions
     public class ExpiredSessionsCleanupService : IHostedService, IDisposable
     {
+        private Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+
         private readonly IServiceProvider _services;
         private readonly IConfiguration _configuration;
         private Timer _timer;
@@ -57,7 +60,7 @@ namespace WebApi.Services
                     // Retrieve and remove expired sessions
                     var expiredSessions = await dbContext.ActiveSessions.Where(s => s.SignInDate < expirationThreshold).ToListAsync();
                     // Update log
-                    Logger.WriteToLog($"ExpiredSessionsCleanupService - {expiredSessions.Count} expired sessions found and removed from db");
+                    logger.Info($"ExpiredSessionsCleanupService - {expiredSessions.Count} expired sessions found and removed from db");
 
                     dbContext.ActiveSessions.RemoveRange(expiredSessions);
 
@@ -67,12 +70,12 @@ namespace WebApi.Services
                 catch (DbUpdateConcurrencyException ex)
                 {
                     // Handle concurrency exception (another process modified the data)
-                    Logger.WriteToLog($"Concurrency exception occurred: {ex.Message}", Logger.LogLevel.Error);
+                    logger.Error($"Concurrency exception occurred: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
                     // Handle other exceptions
-                    Logger.WriteToLog($"An error occurred during cleanup: {ex.Message}", Logger.LogLevel.Error);
+                    logger.Error(ex);
                 }
             }
         }

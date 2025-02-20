@@ -1,7 +1,8 @@
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Data.Sqlite;
+using NLog;
+using NLog.Web;
 using NrExtras.DynamicObjects_Helper;
 using NrExtras.EncryptionHelper;
-using NrExtras.Logger;
 using NrExtras.RandomPasswordGenerator;
 
 namespace WebApi
@@ -10,6 +11,13 @@ namespace WebApi
     {
         public static void Main(string[] args)
         {
+            Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            // Check and create the Logs table in SQLite
+            CreateLogsTable();
+
+            // Early init of NLog to allow startup and exception logging, before host is built
+            logger.Info("init main");
+
             // Set jwt key and encrypt it
             GlobalDynamicSettings.JwtTokenSecret_HashedSecnret = EncryptionHelper.EncryptKey(RandomPasswordGenerator.Generate512BitPassword());
             // Set debug mode
@@ -37,7 +45,7 @@ namespace WebApi
             //if running production and we have a domain, auto create ssl
             if (!IsDevelopmentEnvironment() && !appSettingsConfiguration.GetSection("LettuceEncrypt:DomainNames").Get<string[]>().IsNullOrEmpty())
             {
-                Logger.WriteToLog("Auto creating ssl certificate using LettuceEncrypt");
+                logger.Info("Auto creating ssl certificate using LettuceEncrypt");
                 builder.Services.AddLettuceEncrypt();
                 builder.WebHost.UseKestrel(k =>
                 {
@@ -62,12 +70,12 @@ namespace WebApi
                 app.UseSwaggerUI();
 
                 //setting running ports
-                Logger.WriteToLog("Running on development env");
+                logger.Info("Running on development env");
                 builder.WebHost.UseUrls(configuration["ListeningUrls:local"]);
             }
             else
             {
-                Logger.WriteToLog("Running on production env");
+                logger.Info("Running on production env");
                 //if we dont have a domain, set the right ports to listen
                 if (configuration.GetSection("LettuceEncrypt:DomainNames").Get<string[]>().IsNullOrEmpty())
                     builder.WebHost.UseUrls(configuration["ListeningUrls:production_WithoutDomain"]);
@@ -102,6 +110,37 @@ namespace WebApi
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile(configFileName)
             .Build();
+        }
+
+        /// <summary>
+        /// Create SQLite log tables
+        /// </summary>
+        private static void CreateLogsTable()
+        {
+            string dbDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+
+            if (!Directory.Exists(dbDirectory))
+                Directory.CreateDirectory(dbDirectory);  // Create the 'logs' directory if it doesn't exist
+
+            string connectionString = $"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "nlog-database.sqlite")}";
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                //important logs table
+                string createOwnLogsTable = @"
+                    CREATE TABLE IF NOT EXISTS OwnLogs (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        TimeStamp TEXT,
+                        LogLevel TEXT,
+                        Logger TEXT,
+                        Message TEXT,
+                        Exception TEXT
+                    );";
+
+                using (var command = new SqliteCommand(createOwnLogsTable, connection))
+                    command.ExecuteNonQuery();
+            }
         }
     }
 }

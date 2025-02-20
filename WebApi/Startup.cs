@@ -1,13 +1,12 @@
 ﻿using AspNetCoreRateLimit;
 using BackEnd_Exp.Attributes;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
+using NLog;
+using NLog.Web;
 using NrExtras.EncryptionHelper;
-using NrExtras.Logger;
 using System.Text;
 using WebApi.Services;
 using static WebApi.ConfigClassesDefinitions;
@@ -16,6 +15,8 @@ namespace WebApi
 {
     public class Startup
     {
+        private Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,22 +29,32 @@ namespace WebApi
         {
             try
             {
+                //Add NLog service
+                services.AddSingleton<Logger>(provider =>
+                    NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger());
+
                 #region Db
                 string connectionString;
 
                 //set db service
                 if (Configuration.GetValue<bool>("DbIsSQLLite"))
                 {
-                    Logger.WriteToLog("Using SqlLite db");
-                    connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-                    // Add SQL Lite DB services
-                    services.AddDbContext<AppDbContext>(options =>
-                        options.UseSqlite(connectionString));
+                    logger.Info("Using SqlLite db");
+                    // Get the database file name from appsettings.json
+                    var dbFileName = Configuration["SQLiteDB:FileName"];
+                    //set connection string based on develop or production env
+                    if (GlobalDynamicSettings.DebugMode_RunningLocal)
+                        connectionString = $"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dbFileName)}"; // In Development (Debug), set path to bin/Debug
+                    else// In Production, use the root directory (i.e., the default location)
+                        connectionString = $"Data Source={dbFileName}";
+                    
+                    // Configure the SQLite database context
+                    services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+                    logger.Info("SQLite db connected");
                 }
                 else
                 {
-                    Logger.WriteToLog("Using MySQL db");
+                    logger.Info("Using MySQL db");
                     //get connection string based on develop or production env
                     try
                     {
@@ -58,13 +69,13 @@ namespace WebApi
                     }
                     catch
                     {
-                        Logger.WriteToLog("Error getting MySql connection string", Logger.LogLevel.Error);
+                        logger.Error("Error getting MySql connection string");
                         throw;
                     }
 
-                    // Configure the MySQL database context
+                    // Configure the MySQL database context using MySql.EntityFrameworkCore
                     services.AddDbContext<AppDbContext>(options =>
-                        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+                        options.UseMySQL(connectionString));
                 }
 
                 // Create the Users table if it doesn't exist
@@ -99,7 +110,7 @@ namespace WebApi
                                 var tokenUtility = context.HttpContext.RequestServices.GetRequiredService<TokenUtility>();
                                 if (!tokenUtility.IsValidAccessToken(token))
                                 {
-                                    Logger.WriteToConsole("JwtBearerEvents: Token is invliad or not exists in active sessions(user it not logged in anymore)");
+                                    logger.Warn("JwtBearerEvents: Token is invliad or not exists in active sessions(user it not logged in anymore)");
                                     context.Fail("Invalid token");
                                 }
 
@@ -135,14 +146,6 @@ namespace WebApi
                 services.AddRazorPages();
                 #region Cors
                 //add cors
-                ////Allow all cors - use only for develop environment
-                //services.AddCors(options =>
-                //{
-                //    options.AddPolicy("AllowGetForAll",
-                //        builder => builder.AllowAnyOrigin()
-                //        .AllowAnyHeader().WithMethods("GET"));
-                //});
-
                 string[] corsAllowedAddress;
                 //adding specific address for cors to allow them to connect - local or production
                 //if (bool.Parse(ConfigurationHelper.GetConfig()["DebugMode_RunningLocal"]) == true)
@@ -153,13 +156,22 @@ namespace WebApi
 
                 //setting cors for each address
                 foreach (string address in corsAllowedAddress)
-                    Logger.WriteToLog("Cors allowed address: " + address);
+                    logger.Info("Cors allowed address: " + address);
 
                 //add cors service
                 services.AddCors(options =>
                 {
                     options.AddPolicy("Cors_AllowOrigin_SpecificAddress",
-                    builder => builder.WithOrigins(corsAllowedAddress).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+                        builder => builder.WithOrigins(corsAllowedAddress)
+                            .AllowAnyHeader()
+                            .WithMethods("GET", "POST", "OPTIONS")
+                            .AllowCredentials()
+                            .WithExposedHeaders("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After")  // Expose rate-limiting headers
+                                                                                                              //Force using only this headers - too strict approach
+                                                                                                              //    .WithHeaders("Authorization", "Content-Type", Configuration.GetValue<string>("ApiHeaderKeyName"), Configuration.GetValue<string>("IpRateLimiting:RealIpHeader"))
+                    );
+                    //allow all - debug purpose
+                    //builder => builder.WithOrigins(corsAllowedAddress).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
                 });
                 #endregion
                 #region Configure rate limiting
@@ -267,7 +279,7 @@ namespace WebApi
             }
             else
             {// MySQL
-                using (var connection = new MySqlConnection(connectionString))
+                using (var connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString))
                 {
                     connection.Open();
 

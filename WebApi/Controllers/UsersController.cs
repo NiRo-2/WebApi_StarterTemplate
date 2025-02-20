@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NrExtras.EmailHelper;
 using NrExtras.EncryptionHelper;
-using NrExtras.Logger;
 using NrExtras.PassHash_Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,13 +22,15 @@ namespace WebApi.Controllers
         private readonly AppDbContext _context;
         private readonly UserService _userService;
         private readonly IPasswordResetTokenService _passwordResetTokenService;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IConfiguration configuration, AppDbContext context, UserService userService, IPasswordResetTokenService passwordResetTokenService)
+        public UsersController(IConfiguration configuration, AppDbContext context, UserService userService, IPasswordResetTokenService passwordResetTokenService, ILogger<UsersController> logger)
         {
             _context = context;
             _configuration = configuration;
             _userService = userService;
             _passwordResetTokenService = passwordResetTokenService;
+            _logger = logger;
         }
 
         // POST: api/users/register
@@ -42,6 +43,10 @@ namespace WebApi.Controllers
                 // Check email validity before any other validation
                 if (!EmailHelper.IsValidEmail(user.Email))
                     return BadRequest("Invalid email address format.");
+
+                //Validate user name doesnt contain special chars
+                if (!_userService.IsValidUsername(user.UserName))
+                    return BadRequest("Invalid username. A valid username contains only alphanumeric characters(abcd...), underscores(_), and dots(.), and must be between 3 and 20 characters long");
 
                 if (ModelState.IsValid)
                 {
@@ -71,7 +76,7 @@ namespace WebApi.Controllers
                     sendEmailConfirmation(user.Email, baseUrl, verificationToken);
 
                     //Done
-                    Logger.WriteToLog($"{user.Email} Registered (still waiting for email verification)");
+                    _logger.LogInformation($"{user.Email} Registered (still waiting for email verification)");
                     return Ok("Registration successful.");
                 }
 
@@ -79,7 +84,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog(ex);
+                _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
         }
@@ -92,7 +97,7 @@ namespace WebApi.Controllers
         /// <param name="verificationToken">verification token</param>
         private void sendEmailConfirmation(string email, string baseUrl, string verificationToken)
         {
-            Logger.WriteToLog($"Send email confirmation to {email}");
+            _logger.LogInformation($"Send email confirmation to {email}");
 
             //get expire minute/hours
             TimeSpan linkExpiration = TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:TokenExpirationHours"]));
@@ -191,7 +196,7 @@ namespace WebApi.Controllers
                 // Update user's email confirmation status
                 if (await _userService.UpdateUserEmailConfirmationStatusAsync(userEmailClaim))
                 {
-                    Logger.WriteToLog($"Email verified successful for email {userEmailClaim}");
+                    _logger.LogInformation($"Email verified successful for email {userEmailClaim}");
                     return Ok("Email verification successful.");
                 }
 
@@ -290,7 +295,7 @@ namespace WebApi.Controllers
             string emailBody = $"To reset your password, {NrExtras.Html_Helper.Html_Helper.GetHyperLink(resetPasswordLink, "Click Here")}";
 
             //send reset password link
-            Logger.WriteToLog($"Send reset password link to {email}");
+            _logger.LogInformation($"Send reset password link to {email}");
             EmailHelper.sendEmail(_configuration["EmailSettings:FromAddress"], EncryptionHelper.DecryptKey(GlobalDynamicSettings.EmailHashedPass), _configuration["EmailSettings:mailServer"], int.Parse(_configuration["EmailSettings:mailServerPort"]), new List<string>() { email }, null, null, emailSubject, emailBody);
         }
 
@@ -353,7 +358,7 @@ namespace WebApi.Controllers
             string emailBody = "Your password has resetted successfuly.";
 
             //send reset password link
-            Logger.WriteToLog($"Send reset password success email to {email}");
+            _logger.LogInformation($"Send reset password success email to {email}");
             EmailHelper.sendEmail(_configuration["EmailSettings:FromAddress"], EncryptionHelper.DecryptKey(GlobalDynamicSettings.EmailHashedPass), _configuration["EmailSettings:mailServer"], int.Parse(_configuration["EmailSettings:mailServerPort"]), new List<string>() { email }, null, null, emailSubject, emailBody);
         }
     }

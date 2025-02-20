@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NrExtras.Logger;
+using NLog;
+using NLog.Web;
 
 namespace WebApi.Services
 {
     // Service to clean up unconfirmed email records
     public class UnconfirmedEmailsCleanupService : IHostedService, IDisposable
     {
+        private Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+
         private readonly IServiceProvider _services;
         private readonly IConfiguration _configuration;
         private Timer _timer;
@@ -48,18 +51,18 @@ namespace WebApi.Services
                         // Remove the unconfirmed email records
                         dbContext.Users.RemoveRange(unconfirmedEmails);
                         await dbContext.SaveChangesAsync();
-                        Logger.WriteToLog($"UnconfirmedEmailsCleanupService - {unconfirmedEmails.Count} users with unconfirmed emails found and removed from db");
+                        logger.Info($"UnconfirmedEmailsCleanupService - {unconfirmedEmails.Count} users with unconfirmed emails found and removed from db");
                     }
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
                     // Handle concurrency exception (another process modified the data)
-                    Logger.WriteToLog($"Concurrency exception occurred: {ex.Message}", Logger.LogLevel.Error);
+                    logger.Error($"Concurrency exception occurred: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
                     // Handle other exceptions
-                    Logger.WriteToLog($"An error occurred during cleanup: {ex.Message}", Logger.LogLevel.Error);
+                    logger.Error($"An error occurred during cleanup: {ex.Message}");
                 }
             }
         }

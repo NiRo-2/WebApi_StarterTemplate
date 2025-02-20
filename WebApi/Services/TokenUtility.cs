@@ -1,5 +1,4 @@
 ﻿using NrExtras.JwtToken_Helper;
-using NrExtras.Logger;
 using System.IdentityModel.Tokens.Jwt;
 using WebApi;
 using static WebApi.ConfigClassesDefinitions;
@@ -11,11 +10,13 @@ public class TokenUtility
 {
     private readonly AppDbContext _context;
     private IConfiguration _configuration;
+    public readonly ILogger<TokenUtility> _logger;
 
-    public TokenUtility(AppDbContext context, IConfiguration configuration)
+    public TokenUtility(AppDbContext context, IConfiguration configuration, ILogger<TokenUtility> logger)
     {
         _context = context;
         _configuration = configuration;
+        _logger = logger;
     }
 
     /// <summary>
@@ -45,7 +46,7 @@ public class TokenUtility
         }
         catch (Exception ex)
         {
-            NrExtras.Logger.Logger.WriteToLog("Failed to extract email from token. Err: " + ex, NrExtras.Logger.Logger.LogLevel.Error);
+            _logger.LogError("Failed to extract email from token. Err: " + ex, ex);
         }
 
         // Return an empty string if the email couldn't be extracted or an error occurred
@@ -69,7 +70,7 @@ public class TokenUtility
         catch (Exception ex)
         {
             // Log any exceptions during token validation
-            Logger.WriteToLog(ex);
+            _logger.LogError(ex.Message, ex);
         }
 
         return false;

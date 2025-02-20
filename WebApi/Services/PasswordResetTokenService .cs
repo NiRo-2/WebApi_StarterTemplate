@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
+using NLog.Web;
 using NrExtras.PassHash_Helper;
-using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,6 +15,7 @@ namespace WebApi.Services
     /// </summary>
     public class PasswordResetTokenService : IPasswordResetTokenService
     {
+        private Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         private readonly AppDbContext _context;
         private readonly TokenUtility _tokenUtility;
         private readonly UserService _userService;
@@ -110,7 +112,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                NrExtras.Logger.Logger.WriteToLog(ex);
+                logger.Error(ex);
                 return false;
             }
         }

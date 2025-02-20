@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NrExtras.Logger;
 using NrExtras.PassHash_Helper;
+using System.Text.RegularExpressions;
 using WebApi.Models;
 
 namespace WebApi.Services
@@ -10,11 +10,13 @@ namespace WebApi.Services
     /// </summary>
     public class UserService
     {
+        private readonly ILogger<UserService> _logger;
         private readonly AppDbContext _context;
 
-        public UserService(AppDbContext context)
+        public UserService(AppDbContext context, ILogger<UserService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog(ex);
+                _logger.LogError(ex.Message);
                 return null;
             }
         }
@@ -57,7 +59,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog(ex);
+                _logger.LogError(ex.Message);
                 return false;
             }
         }
@@ -88,9 +90,29 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog(ex);
+                _logger.LogError(ex.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Validates if a given string is a valid username.
+        /// A valid username contains only alphanumeric characters, underscores, and dots,
+        /// and must be between 3 and 20 characters long.
+        /// </summary>
+        /// <param name="username">The username string to validate.</param>
+        /// <returns>True if the username is valid; otherwise, false.</returns>
+        public bool IsValidUsername(string username)
+        {
+            // Null or empty strings are not valid usernames
+            if (string.IsNullOrEmpty(username))
+                return false;
+
+            // Define a regex pattern for a valid username
+            string pattern = "^[a-zA-Z0-9_.]{3,20}$";
+
+            // Use Regex to match the pattern
+            return Regex.IsMatch(username, pattern);
         }
     }
 }

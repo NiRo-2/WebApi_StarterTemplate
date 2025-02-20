@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NrExtras.Logger;
 using WebApi.Models;
+using NLog;
+using NLog.Web;
 
 namespace WebApi
 {
     public class AppDbContext : DbContext
     {
+        Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<ActiveSession> ActiveSessions { get; set; }
@@ -30,7 +33,7 @@ namespace WebApi
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog(ex);
+                logger.Error(ex);
                 throw new Exception("Error in SaveChangesAsync. Err: " + ex.Message);
             }
         }

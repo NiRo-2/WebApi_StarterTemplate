@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NrExtras.Logger;
+using NLog;
+using NLog.Web;
 using System.Net;
 
 namespace BackEnd_Exp.Attributes
@@ -12,6 +13,8 @@ namespace BackEnd_Exp.Attributes
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public class LocalOnlyAttribute : ActionFilterAttribute
     {
+        Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+
         // Local IP addresses
         private readonly IPAddress[] localAddresses = {
         IPAddress.Parse("127.0.0.1"),
@@ -29,18 +32,18 @@ namespace BackEnd_Exp.Attributes
                     if (IPAddress.Equals(remoteIp, allowedIp))
                     {
                         // Address found
-                        Logger.WriteToLog("Connection allowed from local IP: " + remoteIp);
+                        logger.Info("Connection allowed from local IP: " + remoteIp);
                         return;
                     }
                 }
 
                 // If we are here, the IP is not allowed
-                Logger.WriteToLog("Connection denied from non-local IP: " + remoteIp, Logger.LogLevel.Warning);
+                logger.Warn("Connection denied from non-local IP: " + remoteIp);
                 context.Result = new UnauthorizedResult();
             }
             catch (Exception ex)
             {
-                Logger.WriteToLog("Error getting remote IP address. Err: " + ex.Message, Logger.LogLevel.Error);
+                logger.Error("Error getting remote IP address. Err: " + ex.Message);
             }
         }
     }
