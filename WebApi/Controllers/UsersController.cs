@@ -40,6 +40,9 @@ namespace WebApi.Controllers
         {
             try
             {
+                //change all letters to lower before saving
+                user.Email = user.Email.ToLower();
+
                 // Check email validity before any other validation
                 if (!EmailHelper.IsValidEmail(user.Email))
                     return BadRequest("Invalid email address format.");
@@ -51,7 +54,7 @@ namespace WebApi.Controllers
                 if (ModelState.IsValid)
                 {
                     // Check if the username or email is already registered
-                    if (await _context.Users.AnyAsync(u => u.UserName == user.UserName || u.Email == user.Email))
+                    if (await _context.Users.AnyAsync(u => u.UserName.ToLower() == user.UserName.ToLower() || u.Email.ToLower() == user.Email.ToLower()))
                         return BadRequest("Username or email is already taken.");
 
                     //last login should be null - make sure of it

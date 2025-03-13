@@ -28,7 +28,7 @@ namespace WebApi.Services
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
                 return user;
             }
             catch (Exception ex)
