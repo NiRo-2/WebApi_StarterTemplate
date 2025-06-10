@@ -7,25 +7,23 @@ namespace WebApi.Pages
 {
     public class ResetPassword : PageModel
     {
-        private readonly IConfiguration _configuration;
+        private readonly ILogger<ResetPassword> _logger;
         private readonly IPasswordResetTokenService _passwordResetTokenService;
-        private readonly UserService _userService;
 
-        public ResetPassword(IConfiguration configuration, IPasswordResetTokenService passwordResetTokenService, UserService userService)
+        public ResetPassword(IPasswordResetTokenService passwordResetTokenService, ILogger<ResetPassword> logger)
         {
-            _configuration = configuration;
+            _logger = logger;
             _passwordResetTokenService = passwordResetTokenService;
-            _userService = userService;
         }
 
         [BindProperty]
-        public string NewPassword { get; set; }
+        public string NewPassword { get; set; } = "";
 
         [BindProperty]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = "";
 
-        public string ErrorMessage { get; set; }
-        public string SuccessMessage { get; set; }
+        public string ErrorMessage { get; set; } = "";
+        public string SuccessMessage { get; set; } = "";
         public bool InvalidToken { get; set; } = false;
 
         public IActionResult OnGet()
@@ -128,7 +126,7 @@ namespace WebApi.Pages
             catch (Exception ex)
             {
                 // Log the exception
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                _logger.LogError(ex, "An error occurred while resetting the password.");
                 ErrorMessage = "An error occurred while processing your request.";
                 return Page();
             }
