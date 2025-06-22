@@ -41,42 +41,50 @@ namespace WebApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid request");
-
-            // Verify the reCAPTCHA token
-            if (bool.Parse(_configuration["reCaptcha:Active"]))
-                if (!await Google_reCaptcha_Helper.ValidateRecaptchaAsync(model.recaptchaToken, _configuration["reCaptcha:Secret"]))
-                    return BadRequest("reCAPTCHA validation failed.");
-
-            var user = await _userService.GetUserByEmailAsync(model.email);
-            if (user == null || !PassHash_Helper.VerifyHashVsPass(model.password, user.Password))
+            try
             {
-                _logger.LogWarning($"Invalid login attempt for Email: {model.email}");
-                return Unauthorized("Invalid credentials");
-            }
+                if (!ModelState.IsValid)
+                    return BadRequest("Invalid request");
 
-            //validating email confirmed
-            if (user.EmailConfirmed == 0)
+                // Verify the reCAPTCHA token
+                if (bool.Parse(_configuration["reCaptcha:Active"]))
+                    if (!await Google_reCaptcha_Helper.ValidateRecaptchaAsync(model.recaptchaToken, _configuration["reCaptcha:Secret"]))
+                        return BadRequest("reCAPTCHA validation failed.");
+
+                var user = await _userService.GetUserByEmailAsync(model.email);
+                if (user == null || !PassHash_Helper.VerifyHashVsPass(model.password, user.Password))
+                {
+                    _logger.LogWarning($"Invalid login attempt for Email: {model.email}");
+                    return Unauthorized("Invalid credentials");
+                }
+
+                //validating email confirmed
+                if (user.EmailConfirmed == 0)
+                {
+                    _logger.LogInformation($"Success login but email not confirmed for Email: {model.email}");
+                    return Unauthorized("Email not confirmed");
+                }
+
+                // Valid user, password and email confirmed
+                _logger.LogInformation($"Successful login for Email: {model.email}");
+                // Update the LastLoginDate property and save the changes to the database
+                user.LastLoginDate = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+
+                //generate token
+                var token = GenerateJwtToken(user);
+
+                // Create an active session
+                await CreateActiveSessionAsync(user, token);
+
+                //return encrypted token to user
+                return Ok(new { Token = EncryptionHelper.EncryptKey(token) });
+            }
+            catch (Exception ex)
             {
-                _logger.LogInformation($"Success login but email not confirmed for Email: {model.email}");
-                return Unauthorized("Email not confirmed");
+                _logger.LogError(ex, "An error occurred during login.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
-
-            // Valid user, password and email confirmed
-            _logger.LogInformation($"Successful login for Email: {model.email}");
-            // Update the LastLoginDate property and save the changes to the database
-            user.LastLoginDate = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
-
-            //generate token
-            var token = GenerateJwtToken(user);
-
-            // Create an active session
-            await CreateActiveSessionAsync(user, token);
-
-            //return encrypted token to user
-            return Ok(new { Token = EncryptionHelper.EncryptKey(token) });
         }
 
         /// <summary>

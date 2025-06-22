@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\pages\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\pages\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\pages\\resetpassword.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\pages\\resetpassword.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DD7FBC9D-64B1-42F2-BA75-B721DFD99608}|WebApi\\WebApi.csproj|d:\\nir\\p\\googledrive\\dev\\web\\webapi_startertemplate\\webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,24 +30,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ResetPassword.cshtml.cs",
-              "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Pages\\ResetPassword.cshtml.cs",
-              "RelativeDocumentMoniker": "WebApi\\Pages\\ResetPassword.cshtml.cs",
-              "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Pages\\ResetPassword.cshtml.cs",
-              "RelativeToolTip": "WebApi\\Pages\\ResetPassword.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T10:57:40.869Z",
+              "DocumentIndex": 0,
+              "Title": "ResetPassword.cshtml",
+              "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Pages\\ResetPassword.cshtml",
+              "RelativeDocumentMoniker": "WebApi\\Pages\\ResetPassword.cshtml",
+              "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Pages\\ResetPassword.cshtml",
+              "RelativeToolTip": "WebApi\\Pages\\ResetPassword.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-22T18:05:43.934Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "WebApi\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "WebApi\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAowD4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-15T12:42:41.08Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "UsersController.cs",
               "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "WebApi\\Controllers\\UsersController.cs",
@@ -51,12 +68,11 @@
               "RelativeToolTip": "WebApi\\Controllers\\UsersController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAACAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T13:47:06.899Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T13:47:06.899Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "UserService.cs",
               "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "WebApi\\Services\\UserService.cs",
@@ -68,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Nir\\P\\GoogleDrive\\Dev\\Web\\WebApi_StarterTemplate\\WebApi\\Program.cs",
               "RelativeDocumentMoniker": "WebApi\\Program.cs",
@@ -76,8 +92,7 @@
               "RelativeToolTip": "WebApi\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAJEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-18T12:55:58.485Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-18T12:55:58.485Z"
             }
           ]
         }
