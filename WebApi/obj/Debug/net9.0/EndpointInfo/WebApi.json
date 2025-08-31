@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "WebApi",
     "version": "1.0"
@@ -196,7 +196,7 @@
             "type": "string",
             "format": "password"
           },
-          "recaptchaToken": {
+          "recaptchaToken_v3": {
             "type": "string",
             "nullable": true
           }

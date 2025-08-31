@@ -1,7 +1,8 @@
-﻿using NrExtras.JwtToken_Helper;
+﻿using NrExtras.EncryptionHelper;
+using NrExtras.JwtToken_Helper;
 using System.IdentityModel.Tokens.Jwt;
 using WebApi;
-using static WebApi.ConfigClassesDefinitions;
+using WebApi.Models;
 
 /// <summary>
 /// Token helper service
@@ -63,9 +64,17 @@ public class TokenUtility
         try
         {
             //get all values from appsettings
-            JwtConfig jwtConfig = _configuration.GetSection("JWT").Get<JwtConfig>();
+            JwtConfig? jwtConfig = _configuration.GetSection("JWT").Get<JwtConfig>();
+            // Check if the JWT configuration is valid
+            if (jwtConfig == null || string.IsNullOrEmpty(jwtConfig.Issuer) || string.IsNullOrEmpty(jwtConfig.Audience))
+            {
+                _logger.LogError("JWT configuration is missing or incomplete.");
+                return false;
+            }
+
             //validate using jwtTokenHelper
-            return JwtToken_Helper.ValidateCurrentToken(NrExtras.EncryptionHelper.EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret), jwtConfig.Issuer, jwtConfig.Audience, token);
+            string JwtTokenSecret = EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret);
+            return JwtToken_Helper.ValidateCurrentToken(JwtTokenSecret, jwtConfig.Issuer, jwtConfig.Audience, token);
         }
         catch (Exception ex)
         {

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NrExtras.EmailHelper;
 using NrExtras.EncryptionHelper;
+using NrExtras.NetAddressUtils;
 using NrExtras.PassHash_Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -72,7 +73,8 @@ namespace WebApi.Controllers
                     await _context.SaveChangesAsync();
 
                     // Generate verification email and send it
-                    string verificationToken = GenerateEmailVerificationToken(user.Email, EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret), TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:TokenExpirationHours"])));
+                    string JwtTokenSecret = EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret);
+                    string verificationToken = GenerateEmailVerificationToken(user.Email, JwtTokenSecret, TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:EmailVerificationTokenExpirationHours"])));
                     string baseUrl = $"{Request.Scheme}://{Request.Host}";
 
                     // Send verification email with the verificationLink
@@ -100,10 +102,10 @@ namespace WebApi.Controllers
         /// <param name="verificationToken">verification token</param>
         private void sendEmailConfirmation(string email, string baseUrl, string verificationToken)
         {
-            _logger.LogInformation($"Send email confirmation to {email}");
+            _logger.LogInformation($"Host: {IpHostData.GetHostDataFromHttpContext(HttpContext)} Send email confirmation to {email}");
 
             //get expire minute/hours
-            TimeSpan linkExpiration = TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:TokenExpirationHours"]));
+            TimeSpan linkExpiration = TimeSpan.FromHours(Convert.ToDouble(_configuration["JWT:EmailVerificationTokenExpirationHours"]));
             string formattedExpiration = linkExpiration.TotalHours < 1 ? $"{linkExpiration.TotalMinutes} minutes" : $"{linkExpiration.TotalHours} hours";
             string verificationLink = $"{baseUrl}/api/Users/VerifyEmail?token={verificationToken}";
 
@@ -112,7 +114,7 @@ namespace WebApi.Controllers
             string body = $"Click <a href='{verificationLink}'>here</a> to verify your email. This link will expire after {formattedExpiration}.";
 
             //send email
-            EmailHelper.sendEmail(_configuration["EmailSettings:FromAddress"], EncryptionHelper.DecryptKey(GlobalDynamicSettings.EmailHashedPass), _configuration["EmailSettings:mailServer"], int.Parse(_configuration["EmailSettings:mailServerPort"]), new List<string>() { email }, null, null, subject, body);
+            EmailHelper.sendEmail(_configuration["EmailSettings:FromAddress"] ?? throw new Exception("Cannot find JWT:jwtCookieName in configuration"), EncryptionHelper.DecryptKey(GlobalDynamicSettings.EmailHashedPass), _configuration["EmailSettings:mailServer"] ?? throw new Exception("Cannot find JWT:jwtCookieName in configuration"), int.Parse(_configuration["EmailSettings:mailServerPort"] ?? throw new Exception("Cannot find JWT:jwtCookieName in configuration")), new List<string>() { email }, null, null, subject, body);
         }
 
         /// <summary>

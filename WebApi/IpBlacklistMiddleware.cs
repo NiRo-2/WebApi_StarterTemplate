@@ -21,7 +21,7 @@ namespace WebApi
             try
             {
                 var ipAddresses = configuration.GetSection("IpBlacklist").Get<List<string>>();
-                
+
                 //incase of empty list
                 if (ipAddresses == null) //empty list
                     _blacklistedIps = new List<IPAddress>();

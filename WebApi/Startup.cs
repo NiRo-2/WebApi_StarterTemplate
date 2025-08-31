@@ -8,21 +8,20 @@ using NLog;
 using NLog.Web;
 using NrExtras.EncryptionHelper;
 using System.Text;
+using WebApi.Models;
 using WebApi.Services;
-using static WebApi.ConfigClassesDefinitions;
 
 namespace WebApi
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         private Logger logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         //configure services
         public void ConfigureServices(IServiceCollection services)
@@ -47,7 +46,7 @@ namespace WebApi
                         connectionString = $"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dbFileName)}"; // In Development (Debug), set path to bin/Debug
                     else// In Production, use the root directory (i.e., the default location)
                         connectionString = $"Data Source={dbFileName}";
-                    
+
                     // Configure the SQLite database context
                     services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
                     logger.Info("SQLite db connected");
@@ -83,7 +82,9 @@ namespace WebApi
                 #endregion
                 #region Add JWT Bearer Authentication
                 // Bind JWT configuration from appsettings.json
-                JwtConfig jwtConfig = Configuration.GetSection("JWT").Get<JwtConfig>();
+                string JwtTokenSecret = EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret);
+                JwtConfig? jwtConfig = Configuration.GetSection("JWT").Get<JwtConfig>();
+
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -93,15 +94,27 @@ namespace WebApi
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = jwtConfig.Issuer,
-                            ValidAudience = jwtConfig.Audience,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EncryptionHelper.DecryptKey(GlobalDynamicSettings.JwtTokenSecret_HashedSecnret)))
+                            ValidIssuer = jwtConfig?.Issuer,
+                            ValidAudience = jwtConfig?.Audience,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenSecret))
                         };
+
                         //write JwtBearerEvents to console
                         options.Events = new JwtBearerEvents
                         {
+                            OnForbidden = context =>
+                            {
+                                //logger.Info($"JwtBearerEvents (Host: {NrExtras.NetAddressUtils.IpHostData.GetHostDataFromHttpContext(context.HttpContext)}): OnForbidden");
+                                return Task.CompletedTask;
+                            },
+                            OnChallenge = context =>
+                            {
+                                //logger.Info($"JwtBearerEvents (Host: {NrExtras.NetAddressUtils.IpHostData.GetHostDataFromHttpContext(context.HttpContext)}): OnChallenge: {context.Error}");
+                                return Task.CompletedTask;
+                            },
                             OnTokenValidated = context =>
-                            {//make sure token is valid and exists in active sessions to make sure user is logged in
+                            {//make sure jwt is valid and exists in active sessions to make sure user is logged in
+                                //logger.Info("JwtBearerEvents: OnTokenValidated");
                                 context.Request.Headers.TryGetValue("Authorization", out var token);
                                 if (!string.IsNullOrEmpty(token))
                                     token = token.ToString().Substring("Bearer ".Length);
@@ -110,15 +123,21 @@ namespace WebApi
                                 var tokenUtility = context.HttpContext.RequestServices.GetRequiredService<TokenUtility>();
                                 if (!tokenUtility.IsValidAccessToken(token))
                                 {
-                                    logger.Warn("JwtBearerEvents: Token is invliad or not exists in active sessions(user it not logged in anymore)");
+                                    logger.Info($"JwtBearerEvents (Host: {NrExtras.NetAddressUtils.IpHostData.GetHostDataFromHttpContext(context.HttpContext)}): Token is invliad or not exists in active sessions(user it not logged in anymore).");
                                     context.Fail("Invalid token");
                                 }
 
+                                return Task.CompletedTask;
+                            },
+                            OnAuthenticationFailed = context =>
+                            {
+                                //logger.Info($"JwtBearerEvents (Host: {NrExtras.NetAddressUtils.IpHostData.GetHostDataFromHttpContext(context.HttpContext)}): OnAuthenticationFailed: {context.Exception}");
                                 return Task.CompletedTask;
                             }
                         };
                     });
                 #endregion
+                services.AddAuthorization();
                 services.AddControllers();
 
                 #region Cleanup services
@@ -133,6 +152,8 @@ namespace WebApi
                 // Register PasswordResetTokenService
                 services.AddScoped<IPasswordResetTokenService, PasswordResetTokenService>();
 
+                services.Configure<JwtConfig>(Configuration.GetSection("JWT")); //add and validate jwtConfig
+
                 // Register UserService with its dependencies
                 services.AddScoped<UserService>();
 
@@ -145,14 +166,16 @@ namespace WebApi
                 //add razor pages
                 services.AddRazorPages();
                 #region Cors
-                //add cors
-                string[] corsAllowedAddress;
                 //adding specific address for cors to allow them to connect - local or production
-                //if (bool.Parse(ConfigurationHelper.GetConfig()["DebugMode_RunningLocal"]) == true)
+                string[] corsAllowedAddress = [];
+                string? corsAllowedAddressStr;
                 if (GlobalDynamicSettings.DebugMode_RunningLocal)
-                    corsAllowedAddress = Configuration.GetValue<string>("Cors:local").Split(";");
+                    corsAllowedAddressStr = Configuration.GetValue<string>("Cors:local"); //local
                 else
-                    corsAllowedAddress = Configuration.GetValue<string>("Cors:production").Split(";");
+                    corsAllowedAddressStr = Configuration.GetValue<string>("Cors:production"); //production
+
+                //split addresses
+                if (!string.IsNullOrEmpty(corsAllowedAddressStr)) corsAllowedAddress = corsAllowedAddressStr.Split(";");
 
                 //setting cors for each address
                 foreach (string address in corsAllowedAddress)
@@ -192,41 +215,59 @@ namespace WebApi
         //cofigure app
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
-            else
+            try
             {
-                // Production error handling
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+
+                    // Enable Swagger for API documentation in development
+                    app.UseSwagger();
+                    app.UseSwaggerUI(c =>
+                    {
+                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+                        c.RoutePrefix = "swagger";
+                    });
+                }
+                else
+                {
+                    // Production error handling
+                    app.UseExceptionHandler("/Home/Error");
+                    app.UseHsts();
+                }
+
+                //custom error handling
+                app.UseErrorHandling();
+
+                //setting UseIpRateLimiting
+                app.UseIpRateLimiting();
+
+                // Enable authentication
+                app.UseAuthentication();
+
+                app.UseHttpsRedirection();
+                app.UseRouting();
+
+                // Enable CORS
+                app.UseCors("Cors_AllowOrigin_SpecificAddress");
+
+                // Enable authorization
+                app.UseAuthorization();
+
+                //Add ip black list middleware
+                app.UseMiddleware<IpBlacklistMiddleware>();
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapRazorPages();
+                });
             }
-
-            //custom error handling
-            app.UseErrorHandling();
-
-            //setting UseIpRateLimiting
-            app.UseIpRateLimiting();
-
-            // Enable authentication
-            app.UseAuthentication();
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-
-            // Enable CORS
-            app.UseCors("Cors_AllowOrigin_SpecificAddress");
-
-            // Enable authorization
-            app.UseAuthorization();
-
-            //Add ip black list middleware
-            app.UseMiddleware<IpBlacklistMiddleware>();
-
-            app.UseEndpoints(endpoints =>
+            catch (Exception ex)
             {
-                endpoints.MapControllers();
-                endpoints.MapRazorPages();
-            });
+                logger.Error(ex);
+                throw;
+            }
         }
 
         /// <summary>

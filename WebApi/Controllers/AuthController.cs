@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NrExtras.EncryptionHelper;
 using NrExtras.Google;
+using NrExtras.NetAddressUtils;
 using NrExtras.PassHash_Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -47,9 +48,30 @@ namespace WebApi.Controllers
                     return BadRequest("Invalid request");
 
                 // Verify the reCAPTCHA token
-                if (bool.Parse(_configuration["reCaptcha:Active"]))
-                    if (!await Google_reCaptcha_Helper.ValidateRecaptchaAsync(model.recaptchaToken, _configuration["reCaptcha:Secret"]))
-                        return BadRequest("reCAPTCHA validation failed.");
+                if (_configuration.GetValue<bool>("reCaptcha:Active"))
+                {
+                    // Check if reCAPTCHA v2 is enabled and the token is provided. if not provided, return BadRequest
+                    if (string.IsNullOrEmpty(model.recaptchaToken_v3))
+                    {
+                        _logger.LogWarning($"Host: {IpHostData.GetHostDataFromHttpContext(HttpContext)} Invalid login attempt for Email: {model.email} reCAPTCHA v3 token not provided.");
+                        return BadRequest("reCAPTCHA v3 token is required.");
+                    }
+
+                    // Validate the reCAPTCHA v3 token using the secret key
+                    var result = await Google_reCaptcha_Helper.ReCaptcha_v3.ValidateRecaptchaDetailedAsync(model.recaptchaToken_v3 ?? string.Empty, _configuration["reCaptcha:V3:Secret"] ?? string.Empty);
+                    // V3 failed
+                    if (!result.Success)
+                    {
+                        _logger.LogWarning($"Host: {IpHostData.GetHostDataFromHttpContext(HttpContext)} Invalid login attempt for Email: {model.email} reCAPTCHA v3 failed. Score={result.Score}, Error={result.Error}");
+
+                        // If reCAPTCHA validation fails, return a 428 Precondition Required status code to indicate that the client should retry with a reCAPTCHA fallback (if exist)
+                        return StatusCode(StatusCodes.Status428PreconditionRequired, new
+                        {
+                            recaptchaFallbackRequired = true,
+                            reason = result.Error ?? "Low score or validation failed"
+                        });
+                    }
+                }
 
                 var user = await _userService.GetUserByEmailAsync(model.email);
                 if (user == null || !PassHash_Helper.VerifyHashVsPass(model.password, user.Password))
@@ -143,7 +165,7 @@ namespace WebApi.Controllers
             try
             {
                 // Get the token from the Authorization header
-                string authorizationHeader = HttpContext.Request.Headers["Authorization"];
+                string? authorizationHeader = HttpContext.Request.Headers["Authorization"];
                 if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
                     return BadRequest("Invalid authorization header");
 
